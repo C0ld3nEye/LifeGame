@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Ombre portée douce -->
+    <path
+        android:fillColor="#22000000"
+        android:pathData="M54,26 C64,40 76,46 76,64 C76,76 66,86 54,86 C42,86 32,76 32,64 C32,46 44,40 54,26 Z" />
+
+    <!-- Flamme de Résilience extérieure vibrante (dégradé rose/violet/cyan) -->
+    <path
+        android:pathData="M54,24 C62,38 74,44 74,62 C74,73 65,82 54,82 C43,82 34,73 34,62 C34,44 46,38 54,24 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="54"
+                android:endY="82"
+                android:startX="54"
+                android:startY="24"
+                android:type="linear">
+                <item
+                    android:color="#FF00A0"
+                    android:offset="0.0" />
+                <item
+                    android:color="#7A00FF"
+                    android:offset="0.6" />
+                <item
+                    android:color="#00E5FF"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Noyau interne blanc lumineux (l'étincelle de vie/conscience) -->
+    <path
+        android:pathData="M54,42 C58,52 66,56 66,66 C66,72 61,77 54,77 C47,77 42,72 42,66 C42,56 50,52 54,42 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="54"
+                android:endY="77"
+                android:startX="54"
+                android:startY="42"
+                android:type="linear">
+                <item
+                    android:color="#FFFFFF"
+                    android:offset="0.0" />
+                <item
+                    android:color="#E0F7FA"
+                    android:offset="0.7" />
+                <item
+                    android:color="#80DEEA"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>
