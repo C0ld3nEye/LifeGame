@@ -46,6 +46,9 @@ class GameViewModel(
     private val _isThinking = MutableStateFlow(false)
     val isThinking: StateFlow<Boolean> = _isThinking.asStateFlow()
 
+    // 4. Mémoire à court terme pour éviter l'amnésie conversationnelle immédiate
+    private var lastAiResponse: String = "Début de la simulation."
+
     /**
      * Traite l'action entrée par le joueur, construit le prompt omniscient,
      * l'envoie au modèle et met à jour la réponse narrativement.
@@ -56,7 +59,7 @@ class GameViewModel(
 
             try {
                 // Récupération de la donnée + formatage strict (Pont de données)
-                val prompt = contextInjector.buildOmniscientPrompt(userText)
+                val prompt = contextInjector.buildOmniscientPrompt(userText, lastAiResponse)
 
                 // Exécution asynchrone du LLM en local
                 val rawResponse = liteRtManager.generateResponse(prompt)
@@ -65,6 +68,7 @@ class GameViewModel(
                 // Supprime tout ce qui se trouve à partir de la balise <DATA>
                 val textePropre = rawResponse.substringBefore("<DATA>").trim()
                 _narrativeText.value = textePropre
+                lastAiResponse = textePropre
 
                 // On isole le JSON, en gérant le cas où le LLM oublie la balise de fin
                 val jsonString = rawResponse.substringAfter("<DATA>", missingDelimiterValue = "")
