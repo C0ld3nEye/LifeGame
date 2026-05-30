@@ -2,26 +2,26 @@ package com.example.resiliencesandbox.engine
 
 import android.content.Context
 import android.util.Log
-import com.google.mediapipe.tasks.genai.llminference.LlmInference
+import com.google.ai.edge.litertlm.Engine
+import com.google.ai.edge.litertlm.EngineConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
 class LiteRtManager(private val context: Context) {
 
-    private var llmInference: LlmInference? = null
+    private var engine: Engine? = null
     
     companion object {
         private const val TAG = "LiteRtManager"
     }
 
     /**
-     * Initialise le modèle LLM en local via le SDK LiteRT.
-     * Configuration stricte pour éviter les crashs RAM et le fallback CPU.
+     * Charge le modèle LiteRT-LM (format .litertlm).
      */
     suspend fun initializeModel(modelPath: String) = withContext(Dispatchers.IO) {
-        if (llmInference != null) {
-            Log.d(TAG, "Le modèle est déjà initialisé.")
+        if (engine != null) {
+            Log.d(TAG, "Le modèle LiteRT-LM est déjà initialisé.")
             return@withContext
         }
 
@@ -30,38 +30,42 @@ class LiteRtManager(private val context: Context) {
             throw IllegalArgumentException("Fichier modèle introuvable à l'emplacement : $modelPath")
         }
 
-        Log.d(TAG, "Initialisation de LiteRT-LM (Gemma) avec accélération matérielle...")
+        Log.d(TAG, "Initialisation de LiteRT-LM via Engine...")
 
-        // Configuration explicite : Bridage RAM strict (200 tokens max en sortie)
-        val options = LlmInference.LlmInferenceOptions.builder()
-            .setModelPath(modelPath)
-            .setMaxTokens(200) // Bridage strict pour préserver la RAM et la batterie
-            .build()
+        val engineConfig = EngineConfig(
+            modelPath = modelPath
+        )
 
-        llmInference = LlmInference.createFromOptions(context, options)
-        Log.d(TAG, "Modèle initialisé avec succès.")
+        val newEngine = Engine(engineConfig)
+        newEngine.initialize()
+        engine = newEngine
+        Log.d(TAG, "Modèle LiteRT-LM initialisé avec succès.")
     }
 
     /**
-     * Génère une réponse textuelle depuis l'IA en local.
+     * Génère une réponse synchrone via l'Engine, exécutée en IO.
      */
     suspend fun generateResponse(prompt: String): String = withContext(Dispatchers.IO) {
-        val inference = llmInference ?: throw IllegalStateException("Le modèle LiteRT n'est pas initialisé. Appelez initializeModel() en premier.")
+        val currentEngine = engine ?: throw IllegalStateException("Le modèle LiteRT n'est pas initialisé.")
         
         Log.d(TAG, "Génération en cours...")
-        // generateResponse est une méthode synchrone de LiteRT-LM, on la tourne dans Dispatchers.IO
-        val response = inference.generateResponse(prompt)
+        var responseText = ""
+        currentEngine.createConversation().use { conversation ->
+            // sendMessage renvoie un objet Message dont le contenu doit être extrait
+            val message = conversation.sendMessage(prompt)
+            responseText = message.contents.contents.filterIsInstance<com.google.ai.edge.litertlm.Content.Text>().joinToString("") { it.text }
+        }
         
         Log.d(TAG, "Génération terminée.")
-        return@withContext response
+        return@withContext responseText
     }
 
     /**
-     * Libère les ressources du modèle (très important pour la RAM).
+     * Fermeture du modèle pour libérer la mémoire native.
      */
     fun close() {
-        llmInference?.close()
-        llmInference = null
+        engine?.close()
+        engine = null
         Log.d(TAG, "Ressources du modèle libérées.")
     }
 }

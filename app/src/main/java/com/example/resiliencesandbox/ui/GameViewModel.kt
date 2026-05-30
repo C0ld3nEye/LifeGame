@@ -52,12 +52,14 @@ class GameViewModel(
                 val response = liteRtManager.generateResponse(prompt)
 
                 // Injection du résultat dans l'UI
-                _narrativeText.value = response
+                // Supprime tout ce qui se trouve à partir de la balise <DATA>
+                val textePropre = response.substringBefore("<DATA>").trim()
+                _narrativeText.value = textePropre
 
             } catch (e: Exception) {
                 Log.e("GameViewModel", "Crash du modèle LiteRT", e)
                 // Message narratif de secours en cas d'erreur
-                _narrativeText.value = "Mes pensées sont trop confuses pour analyser ça..."
+                _narrativeText.value = "Erreur IA : ${e.message}"
             } finally {
                 _isThinking.value = false
             }

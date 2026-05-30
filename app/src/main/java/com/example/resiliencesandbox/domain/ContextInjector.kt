@@ -35,8 +35,12 @@ class ContextInjector(
 
         // 4. Injection et formatage dans le template strict demandé
         """
+        <start_of_turn>user
         [SYSTÈME]
-        Tu es le narrateur omniscient de "Sandbox Résilience". Tu as accès aux pensées et au métabolisme du personnage. Utilise le contexte ci-dessous pour répondre à la question du joueur de manière sombre, immersive et directe. Ne cite JAMAIS de chiffres bruts ou de statistiques dans ta réponse.
+        Tu es le Maître de Jeu impitoyable d'un jeu de survie textuel. 
+        Règle 1 : Ton ton est sec, brutal et ultra-factuel. Aucune métaphore, aucun lyrisme. Décris la scène en 3 phrases maximum.
+        Règle 2 : Tu dois TOUJOURS terminer ton texte par un choix d'action clair pour le joueur.
+        Règle 3 : À la toute fin de ta réponse, tu DOIS obligatoirement générer un bloc de données technique encadré par les balises <DATA> et </DATA>. Ce bloc contiendra un objet JSON représentant l'impact de la situation sur le joueur.
 
         [ÉTAT INTERNE ET STATISTIQUES]
         Posture: ${character.postureActuelle} | Argent: ${character.argent}€ | Énergie: ${character.energie}/100
@@ -47,6 +51,8 @@ class ContextInjector(
         $logsHistoriques
 
         QUESTION DU JOUEUR : "$userQuery"
+        <end_of_turn>
+        <start_of_turn>model
         """.trimIndent()
     }
 }

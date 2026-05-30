@@ -5,7 +5,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
@@ -30,7 +32,7 @@ uniform float joie;
 uniform float calme;
 uniform float fatigue;
 
-float hash(float2 p) { return fract(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453); }
+float hash(float2 p) { return fract(sin(dot(p, float2(127.1, 311.7))) * 43758.5453); }
 float noise(float2 p) {
     float2 i = floor(p); float2 f = fract(p);
     float2 u = f * f * (3.0 - 2.0 * f);
@@ -38,31 +40,36 @@ float noise(float2 p) {
                mix(hash(i + float2(0.0,1.0)), hash(i + float2(1.0,1.0)), u.x), u.y);
 }
 float fbm(float2 p) {
-    float f = 0.0; float w = 0.5;
-    for(int i=0; i<5; i++) { f += w * noise(p); p *= 2.0; w *= 0.5; }
+    float f = 0.0;
+    f += 0.5000 * noise(p); p *= 2.01;
+    f += 0.2500 * noise(p); p *= 2.02;
+    f += 0.1250 * noise(p); p *= 2.03;
     return f;
 }
 half4 main(float2 fragCoord) {
     float2 uv = fragCoord / resolution.xy;
-    uv.x = abs(uv.x - 0.5); // Symétrie parfaite au centre
+    uv.x = abs(uv.x - 0.5); // Symétrie miroir parfaite
     
-    // Déformation par le temps et les émotions
-    float2 p = uv * (3.0 + fatigue * 2.0);
-    float t = time * (0.2 + peur * 1.5 - calme * 0.1);
+    float2 p = uv * 4.0;
+    float t = time * 0.4;
     
-    float q = fbm(p - t * 0.5);
-    float r = fbm(p + q + t);
+    // Bruit fractal complexe
+    float q = fbm(p - t * 0.3);
+    float r = fbm(p + q + t * 0.2);
     
-    // Seuil de l'encre (bords francs)
-    float mask = smoothstep(0.4, 0.6, r * (1.0 - uv.y) * (1.0 - uv.x * 2.0));
+    // Distance depuis le centre de la symétrie
+    float dist = length(uv - float2(0.0, 0.5));
     
-    // Colorimétrie psychologique
-    float3 color = float3(0.08); // Encre très sombre de base
-    color = mix(color, float3(0.8, 0.1, 0.1), colere * mask);
-    color = mix(color, float3(0.1, 0.2, 0.5), tristesse * mask);
-    color = mix(color, float3(0.9, 0.8, 0.2), joie * mask);
+    // Découpe franche pour un vrai effet d'encre (finis les halos flous)
+    float ink = smoothstep(0.45, 0.43, dist + r * 0.4);
     
-    return half4(color * mask, mask);
+    // Gris argent de base
+    float3 color = float3(0.5, 0.5, 0.55);
+    color = mix(color, float3(0.8, 0.1, 0.1), colere * ink);
+    color = mix(color, float3(0.1, 0.2, 0.5), tristesse * ink);
+    color = mix(color, float3(0.9, 0.8, 0.2), joie * ink);
+    
+    return half4(color * ink, ink);
 }
 """
 
@@ -117,6 +124,7 @@ fun GameScreen(viewModel: GameViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.3f)
+                .verticalScroll(rememberScrollState())
                 .then(if (isThinking) Modifier.blur(4.dp) else Modifier) // PAS de roue de chargement
         )
 

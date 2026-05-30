@@ -67,20 +67,31 @@ class MainActivity : ComponentActivity() {
 
         val gameViewModel = ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
 
-        // Initialisation non bloquante de l'IA (en attente d'un modèle copié par l'utilisateur)
+        // Initialisation non bloquante de l'IA
         lifecycleScope.launch {
             try {
-                // Utilisation de getExternalFilesDir pour que l'utilisateur puisse voir le dossier depuis Windows !
                 val externalFiles = getExternalFilesDir(null)
-                val modelFile = File(externalFiles, "gemma.litertlm")
+                // Cherche n'importe quel fichier de modèle (contourne le bug des extensions masquées sous Windows)
+                val modelFile = externalFiles?.listFiles()?.firstOrNull {
+                    it.name.endsWith(".litertlm") || it.name.endsWith(".bin") || it.name.contains("gemma")
+                } ?: File(externalFiles, "gemma.litertlm")
                 
                 if (modelFile.exists()) {
                     liteRtManager.initializeModel(modelFile.absolutePath)
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        android.widget.Toast.makeText(this@MainActivity, "Modèle IA connecté !", android.widget.Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    Log.w("MainActivity", "Le modèle LiteRT n'est pas encore présent dans : ${modelFile.absolutePath}")
+                    Log.w("MainActivity", "Le modèle LiteRT n'est pas encore présent dans : ${externalFiles?.absolutePath}")
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        android.widget.Toast.makeText(this@MainActivity, "Modèle IA introuvable. Glissez le fichier dans le dossier 'files'.", android.widget.Toast.LENGTH_LONG).show()
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("MainActivity", "Erreur d'initialisation de LiteRT", e)
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                    android.widget.Toast.makeText(this@MainActivity, "Erreur lors du chargement du modèle.", android.widget.Toast.LENGTH_LONG).show()
+                }
             }
         }
 
