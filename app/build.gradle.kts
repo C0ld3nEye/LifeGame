@@ -101,6 +101,7 @@ dependencies {
 
   // Gson (JSON Parsing)
   implementation(libs.gson)
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
   // LiteRT-LM
   implementation(libs.litertlm.android)

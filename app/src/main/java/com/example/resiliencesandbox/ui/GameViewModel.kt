@@ -13,6 +13,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
+
+@Serializable
+data class TurnData(
+    val peur: Int? = null,
+    val fatigue: Int? = null,
+    val lieu: String? = null
+)
 
 class GameViewModel(
     private val repository: CharacterRepository,
@@ -49,12 +59,35 @@ class GameViewModel(
                 val prompt = contextInjector.buildOmniscientPrompt(userText)
 
                 // Exécution asynchrone du LLM en local
-                val response = liteRtManager.generateResponse(prompt)
+                val rawResponse = liteRtManager.generateResponse(prompt)
 
                 // Injection du résultat dans l'UI
                 // Supprime tout ce qui se trouve à partir de la balise <DATA>
-                val textePropre = response.substringBefore("<DATA>").trim()
+                val textePropre = rawResponse.substringBefore("<DATA>").trim()
                 _narrativeText.value = textePropre
+
+                // On isole le JSON, en gérant le cas où le LLM oublie la balise de fin
+                val jsonString = rawResponse.substringAfter("<DATA>", missingDelimiterValue = "")
+                    .substringBefore("</DATA>")
+                    .trim()
+
+                if (jsonString.isNotEmpty()) {
+                    try {
+                        // Un parseur permissif pour encaisser les erreurs de formatage du petit LLM
+                        val jsonParser = Json { ignoreUnknownKeys = true; isLenient = true }
+                        val turnData = jsonParser.decodeFromString<TurnData>(jsonString)
+
+                        // Mise à jour de l'état du personnage via ton repository ou tes MutableStateFlow
+                        updateCharacterStats(
+                            peur = turnData.peur,
+                            fatigue = turnData.fatigue,
+                            lieu = turnData.lieu
+                        )
+                    } catch (e: Exception) {
+                        // Le LLM a halluciné un JSON pété, on logue et on passe au tour suivant sans faire crasher l'app
+                        Log.e("GameViewModel", "JSON parsing failed on turn: ${e.message} \nRaw JSON was: $jsonString")
+                    }
+                }
 
             } catch (e: Exception) {
                 Log.e("GameViewModel", "Crash du modèle LiteRT", e)
@@ -70,5 +103,21 @@ class GameViewModel(
         super.onCleared()
         // On pourrait libérer les ressources du modèle ici si l'orchestrateur est détruit
         // liteRtManager.close()
+    }
+
+    private fun updateCharacterStats(peur: Int?, fatigue: Int?, lieu: String?) {
+        viewModelScope.launch {
+            val currentState = repository.getCharacterState() ?: return@launch
+            
+            // Application des deltas générés par l'IA en s'assurant de rester entre 0 et 100
+            val newPeur = peur?.let { (currentState.peur + it).coerceIn(0, 100) } ?: currentState.peur
+            val newFatigue = fatigue?.let { (currentState.fatigue + it).coerceIn(0, 100) } ?: currentState.fatigue
+            
+            val updatedState = currentState.copy(
+                peur = newPeur,
+                fatigue = newFatigue
+            )
+            repository.updateCharacter(updatedState)
+        }
     }
 }
