@@ -67,15 +67,17 @@ class MainActivity : ComponentActivity() {
 
         val gameViewModel = ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
 
-        // Initialisation non bloquante de l'IA (en attente d'un modèle copié)
+        // Initialisation non bloquante de l'IA (en attente d'un modèle copié par l'utilisateur)
         lifecycleScope.launch {
             try {
-                // Remplacer "gemma.litertlm" par le nom final ou utiliser un sélecteur de fichier
-                val modelFile = File(filesDir, "gemma.litertlm")
+                // Utilisation de getExternalFilesDir pour que l'utilisateur puisse voir le dossier depuis Windows !
+                val externalFiles = getExternalFilesDir(null)
+                val modelFile = File(externalFiles, "gemma.litertlm")
+                
                 if (modelFile.exists()) {
                     liteRtManager.initializeModel(modelFile.absolutePath)
                 } else {
-                    Log.w("MainActivity", "Le modèle LiteRT n'est pas encore présent dans les fichiers. (${modelFile.absolutePath})")
+                    Log.w("MainActivity", "Le modèle LiteRT n'est pas encore présent dans : ${modelFile.absolutePath}")
                 }
             } catch (e: Exception) {
                 Log.e("MainActivity", "Erreur d'initialisation de LiteRT", e)
