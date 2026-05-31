@@ -40,6 +40,7 @@ data class ItemData(
 data class TurnData(
     val peur: Int? = null,
     val fatigue: Int? = null,
+    val energie: Int? = null,
     val toxicite: Int? = null,
     val lieu: String? = null,
     val nouveaux_pnj: List<String>? = null,
@@ -74,11 +75,13 @@ class GameViewModel(
         .map { character ->
             if (character == null) null
             else SemanticCharacterState(
-                energie = when (character.energie) {
-                    in 76..100 -> "Pleine forme"
-                    in 51..75 -> "Légère baisse de régime"
-                    in 26..50 -> "Affaibli"
-                    in 1..25 -> "Épuisement total"
+                energie = when {
+                    character.fatigue >= 90 -> "Épuisement nerveux"
+                    character.fatigue >= 60 -> "Lourdeur physique"
+                    character.energie in 76..100 -> "Réserves pleines"
+                    character.energie in 51..75 -> "Baisse de régime"
+                    character.energie in 26..50 -> "Affaibli (faim/carences)"
+                    character.energie in 1..25 -> "Épuisement calorique"
                     else -> "Inconscient"
                 },
                 fatigue = when (character.fatigue) {
@@ -154,9 +157,9 @@ class GameViewModel(
     private fun resetIdleTimer() {
         idleTimerJob?.cancel()
         idleTimerJob = viewModelScope.launch {
-            delay(25_000L) // 25 secondes d'inactivité
+            delay(60_000L) // 60 secondes d'inactivité
             // Force une action contextuelle silencieuse
-            submitPlayerAction("[INACTIVITÉ] Le joueur n'agit pas. Le temps passe. Fais avancer l'histoire de force. Déclenche un événement extérieur (bruit imprévu, appel, PNJ qui agit) ou une urgence physique (faim, froid) qui le sort de sa torpeur. Le monde doit vivre sans lui.")
+            submitPlayerAction("[INACTIVITÉ] Le joueur n'agit pas. Le temps passe. Fais avancer l'histoire de force. Déclenche un événement extérieur (bruit imprévu, appel, PNJ qui agit) ou une urgence physique (faim, froid) qui le sort de sa torpeur. Le monde doit vivre sans lui.", isHidden = true)
         }
     }
 
@@ -171,7 +174,8 @@ class GameViewModel(
                         postureActuelle = "Inconnue",
                         gameTimeMinutes = 0L,
                         physical = 50, social = 50, intellect = 50, survival = 50, finance = 50, willpower = 50, creativity = 50,
-                        peur = 0, colere = 0, tristesse = 0, joie = 0, calme = 0, fatigue = 0, toxicite = 0
+                        peur = 0, colere = 0, tristesse = 0, joie = 0, calme = 0, fatigue = 0, toxicite = 0,
+                        obsession = "Trouver un endroit sûr pour se reposer."
                     )
                 )
             }
@@ -205,7 +209,7 @@ class GameViewModel(
      * Traite l'action entrée par le joueur, construit le prompt omniscient,
      * l'envoie au modèle et met à jour la réponse narrativement.
      */
-    fun submitPlayerAction(userText: String, isWakeUp: Boolean = false) {
+    fun submitPlayerAction(userText: String, isWakeUp: Boolean = false, isHidden: Boolean = false) {
         stopIdleTimer()
         viewModelScope.launch {
             _isThinking.value = true
@@ -221,12 +225,12 @@ class GameViewModel(
                 }
 
                 // Ajout de l'action du joueur à l'historique
-                if (userText.isNotBlank() && !isWakeUp) {
+                if (userText.isNotBlank() && !isWakeUp && !isHidden) {
                     storyLog += "\n\n> $userText\n\n"
                 }
 
                 // Récupération de la donnée + formatage strict (Pont de données)
-                val prompt = contextInjector.buildOmniscientPrompt(userText, crisisReason, isWakeUp)
+                val prompt = contextInjector.buildOmniscientPrompt(userText, lastAiResponse, crisisReason, isWakeUp)
 
                 // Exécution asynchrone du LLM en streaming
                 _narrativeText.value = storyLog
@@ -249,14 +253,17 @@ class GameViewModel(
                 }
                 
                 val fullResponse = fullResponseBuilder.toString()
-                if (!isDataBlockStarted) {
-                    lastAiResponse = fullResponse.trim()
-                    storyLog += lastAiResponse
+                
+                // On garde l'intégralité (y compris le JSON) pour la mémoire de l'IA
+                lastAiResponse = fullResponse.trim()
+                
+                // On n'affiche que la partie narrative dans l'historique visuel
+                val visibleNarrative = if (!isDataBlockStarted) {
+                    fullResponse.trim()
                 } else {
-                    lastAiResponse = fullResponse.substringBefore("<DATA>").trim()
-                    storyLog += lastAiResponse
+                    fullResponse.substringBefore("<DATA>").trim()
                 }
-
+                storyLog += "\n\n$visibleNarrative"
                 // On isole le JSON de manière ultra-résiliente avec une Regex
                 val regex = "<DATA>(.*?)</DATA>".toRegex(RegexOption.DOT_MATCHES_ALL)
                 val matchResult = regex.find(fullResponse)
@@ -274,6 +281,7 @@ class GameViewModel(
                             peur = turnData.peur,
                             fatigue = turnData.fatigue,
                             toxicite = turnData.toxicite,
+                            energie = turnData.energie,
                             lieu = turnData.lieu
                         )
 
@@ -376,7 +384,7 @@ class GameViewModel(
         // liteRtManager.close()
     }
 
-    private fun updateCharacterStats(peur: Int?, fatigue: Int?, toxicite: Int?, lieu: String?) {
+    private fun updateCharacterStats(peur: Int?, fatigue: Int?, toxicite: Int?, energie: Int?, lieu: String?) {
         viewModelScope.launch {
             val currentState = repository.getCharacterState() ?: return@launch
             
@@ -395,10 +403,10 @@ class GameViewModel(
             val newToxicite = toxicite?.let { (currentState.toxicite + it).coerceIn(0, 100) } ?: currentState.toxicite
             
             val energieMax = 100 - (newToxicite / 2)
-            val energyRestore = if (diffFatigue < 0) -diffFatigue * 2 else 0
-            val newEnergie = (currentState.energie - 1 + energyRestore).coerceIn(0, energieMax)
+            val newEnergie = (currentState.energie - 1).coerceIn(0, energieMax)
+            val finalEnergie = energie?.let { (newEnergie + it).coerceIn(0, energieMax) } ?: newEnergie
             
-            val diffEnergie = newEnergie - currentState.energie
+            val diffEnergie = finalEnergie - currentState.energie
             val diffPeur = newPeur - currentState.peur
             
             if (diffFatigue > 0) pushNotification("Vos paupières sont lourdes")
@@ -413,7 +421,7 @@ class GameViewModel(
             val updatedState = currentState.copy(
                 peur = newPeur,
                 fatigue = finalFatigue,
-                energie = newEnergie,
+                energie = finalEnergie,
                 toxicite = newToxicite,
                 gameTimeMinutes = newTime
             )

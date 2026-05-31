@@ -27,5 +27,6 @@ data class CharacterEntity(
     val joie: Int,
     val calme: Int,
     val fatigue: Int,
-    val toxicite: Int = 0
+    val toxicite: Int = 0,
+    val obsession: String = "Trouver un endroit sûr pour se reposer."
 )

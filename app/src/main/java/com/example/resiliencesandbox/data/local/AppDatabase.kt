@@ -18,12 +18,12 @@ import com.example.resiliencesandbox.data.local.entity.InventoryEntity
 @Database(
     entities = [
         CharacterEntity::class,
-        EventLogEntity::class,
         LocationEntity::class,
         NpcEntity::class,
-        InventoryEntity::class
+        InventoryEntity::class,
+        EventLogEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

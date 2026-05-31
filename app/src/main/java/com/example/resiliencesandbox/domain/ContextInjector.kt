@@ -17,6 +17,7 @@ class ContextInjector(
 
     suspend fun buildOmniscientPrompt(
         userQuery: String, 
+        lastAiResponse: String,
         crisisReason: String? = null,
         isWakeUp: Boolean = false
     ): String = withContext(Dispatchers.IO) {
@@ -31,9 +32,8 @@ class ContextInjector(
             peur = 0, colere = 0, tristesse = 0, joie = 0, calme = 0, fatigue = 0, toxicite = 0
         )
 
-        // 2. Récupération des 2 derniers évènements (ils arrivent triés du plus récent au plus ancien via le DAO)
-        // On les inverse (reversed) pour les avoir du plus ancien au plus récent chronologiquement.
-        val recentLogs = repository.getRecentEventLogs(2).reversed()
+        // 2. Récupération des 4 derniers évènements pour exploiter le long contexte d'un modèle 4B
+        val recentLogs = repository.getRecentEventLogs(4).reversed()
 
         // 3. Formatage de la mémoire récente en texte
         val logsHistoriques = if (recentLogs.isEmpty()) {
@@ -65,11 +65,18 @@ class ContextInjector(
         [TEMPS ET HORLOGE]
         Heure locale in-game : $timeString
         
+        [OBJECTIF NARRATIF (OBSESSION DU JOUEUR)] : ${character.obsession}
+        
         [SYSTÈME - RÔLE NARRATIF]
         Tu es le Maître de Jeu d'une simulation de vie textuelle RÉALISTE et CONTEMPORAINE. Pas de science-fiction, pas d'apocalypse, pas de magie.
         Le contexte de départ est défini UNIQUEMENT par la première action du joueur.
         Règle : Ton ton est neutre, terre-à-terre et factuel. La difficulté du jeu provient de la galère du quotidien (manque d'argent, fatigue, problèmes matériels, relations sociales complexes). Décris l'environnement moderne de manière concise. Laisse le joueur libre de son action SANS jamais poser de questions bateau comme "Que fais-tu ?".
-        Règle Narrative Absolue : Ne redécris JAMAIS le lieu actuel si le joueur n'a pas changé de zone. Concentre-toi strictement sur l'action immédiate et le dialogue.
+        Règle d'Action Absolue : Quand le joueur entreprend une action, tu DOIS immédiatement décrire le RÉSULTAT (réussite ou échec) et ses conséquences concrètes. Fais avancer l'histoire, le temps et l'état physique du joueur.
+        Règle de Description : Interdiction formelle de décrire à nouveau la pièce ou l'environnement si le joueur ne s'est pas déplacé. Sois direct et tranche dans le vif.
+        Règle d'Obsession : L'histoire, les obstacles et les événements que tu génères DOIVENT être liés à l'obsession actuelle du joueur.
+        Règle d'Investigation : Si le joueur cherche une information, pose une question ou inspecte quelque chose (ex: date d'une offre, contenu d'un livre, etc.), tu DOIS INVENTER la réponse. Ne dis jamais que tu ne sais pas, crée des détails pertinents et réalistes pour enrichir l'univers.
+        Règle de Récupération : Si le joueur parvient à dormir ou à manger, tu DOIS obligatoirement restaurer ses constantes avec de fortes valeurs (ex: fatigue: -60, energie: +50). Ne le laisse pas mourir d'épuisement s'il agit pour se soigner.
+        Règle de Jauges : Les valeurs du JSON sont des DELTAS. Utilise des nombres négatifs pour SOIGNER le joueur.
 
         [SYSTÈME - RÔLE TECHNIQUE]
         Tu DOIS obligatoirement terminer ta réponse par un bloc JSON valide encadré par <DATA> et </DATA>.
@@ -79,7 +86,7 @@ class ContextInjector(
 
         EXEMPLE DE RÉPONSE EXIGÉE DE TA PART :
         Tu es dans ta cuisine. Une épaisse fumée s'échappe de ton Airfryer en mode Max crisp, ton repas est complètement cramé. Tu as très faim, tu es fatigué de ta journée, et il te reste 12 euros sur ton compte en banque. Que fais-tu ?
-        <DATA>{"peur": 2, "fatigue": 15, "toxicite": 2, "lieu": "appartement", "nouveaux_pnj": [], "nouveaux_objets": [{"nom": "Clé anglaise", "etat": "Rouillée", "description": "Lourde et tachée d'huile, mais encore solide."}]}</DATA>
+        <DATA>{"peur": 0, "fatigue": -50, "energie": 40, "toxicite": 0, "lieu": "chambre", "nouveaux_pnj": [], "nouveaux_objets": [{"nom": "Clé anglaise", "etat": "Rouillée", "description": "Lourde et tachée d'huile, mais encore solide."}]}</DATA>
 
         [ÉTAT INTERNE ET STATISTIQUES]
         Posture: ${character.postureActuelle} | Argent: ${character.argent}€ | Énergie: ${character.energie}/100
@@ -92,6 +99,11 @@ class ContextInjector(
 
         [MÉMOIRE RÉCENTE DES ÉVÈNEMENTS (BDD)]
         $logsHistoriques
+        <end_of_turn>
+        <start_of_turn>model
+        $lastAiResponse
+        <end_of_turn>
+        <start_of_turn>user
 
         ${
             when {
@@ -103,7 +115,7 @@ class ContextInjector(
 
         ACTION DU JOUEUR : "$userQuery"
 
-        [DIRECTIVE ABSOLUE] Tu es un moteur de jeu textuel. Interdiction formelle de poser des questions à la fin de tes narrations. Tu DOIS obligatoirement terminer ta réponse par le bloc technique exact suivant, SANS utiliser de formatage Markdown ou de blocs de code autour : <DATA>{"peur":0,"fatigue":0,"toxicite":0,"lieu":"nom_du_lieu","nouveaux_pnj":[],"nouveaux_objets":[]}</DATA>
+        [DIRECTIVE ABSOLUE] Tu es un moteur de jeu textuel. Interdiction formelle de poser des questions à la fin de tes narrations. Tu DOIS obligatoirement terminer ta réponse par le bloc technique exact suivant, SANS utiliser de formatage Markdown ou de blocs de code autour : <DATA>{"peur":0,"fatigue":0,"energie":0,"toxicite":0,"lieu":"nom_du_lieu","nouveaux_pnj":[],"nouveaux_objets":[]}</DATA>
         [DIRECTIVE FORMAT] : NE GÉNÈRE AUCUN TEXTE APRÈS LA BALISE </DATA>. LA BALISE DOIT ÊTRE LE TOUT DERNIER ÉLÉMENT DE TA RÉPONSE.
         <end_of_turn>
         <start_of_turn>model
