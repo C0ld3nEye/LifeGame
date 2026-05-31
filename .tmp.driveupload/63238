@@ -1,0 +1,178 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.coroutines.FlowUtil;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.AgendaEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class AgendaDao_Impl implements AgendaDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<AgendaEntity> __insertAdapterOfAgendaEntity;
+
+  public AgendaDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfAgendaEntity = new EntityInsertAdapter<AgendaEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `agenda_table` (`id`,`title`,`description`,`echeance`) VALUES (nullif(?, 0),?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final AgendaEntity entity) {
+        statement.bindLong(1, entity.getId());
+        if (entity.getTitle() == null) {
+          statement.bindNull(2);
+        } else {
+          statement.bindText(2, entity.getTitle());
+        }
+        if (entity.getDescription() == null) {
+          statement.bindNull(3);
+        } else {
+          statement.bindText(3, entity.getDescription());
+        }
+        if (entity.getEcheance() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getEcheance());
+        }
+      }
+    };
+  }
+
+  @Override
+  public Object insertAgendaItem(final AgendaEntity agendaItem,
+      final Continuation<? super Unit> $completion) {
+    if (agendaItem == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfAgendaEntity.insert(_connection, agendaItem);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Flow<List<AgendaEntity>> getAllAgenda() {
+    final String _sql = "SELECT * FROM agenda_table";
+    return FlowUtil.createFlow(__db, false, new String[] {"agenda_table"}, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfTitle = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "title");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfEcheance = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "echeance");
+        final List<AgendaEntity> _result = new ArrayList<AgendaEntity>();
+        while (_stmt.step()) {
+          final AgendaEntity _item;
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final String _tmpTitle;
+          if (_stmt.isNull(_columnIndexOfTitle)) {
+            _tmpTitle = null;
+          } else {
+            _tmpTitle = _stmt.getText(_columnIndexOfTitle);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final String _tmpEcheance;
+          if (_stmt.isNull(_columnIndexOfEcheance)) {
+            _tmpEcheance = null;
+          } else {
+            _tmpEcheance = _stmt.getText(_columnIndexOfEcheance);
+          }
+          _item = new AgendaEntity(_tmpId,_tmpTitle,_tmpDescription,_tmpEcheance);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    });
+  }
+
+  @Override
+  public Object getAllAgendaList(final Continuation<? super List<AgendaEntity>> $completion) {
+    final String _sql = "SELECT * FROM agenda_table";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfTitle = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "title");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfEcheance = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "echeance");
+        final List<AgendaEntity> _result = new ArrayList<AgendaEntity>();
+        while (_stmt.step()) {
+          final AgendaEntity _item;
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final String _tmpTitle;
+          if (_stmt.isNull(_columnIndexOfTitle)) {
+            _tmpTitle = null;
+          } else {
+            _tmpTitle = _stmt.getText(_columnIndexOfTitle);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final String _tmpEcheance;
+          if (_stmt.isNull(_columnIndexOfEcheance)) {
+            _tmpEcheance = null;
+          } else {
+            _tmpEcheance = _stmt.getText(_columnIndexOfEcheance);
+          }
+          _item = new AgendaEntity(_tmpId,_tmpTitle,_tmpDescription,_tmpEcheance);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object clearAgenda(final Continuation<? super Unit> $completion) {
+    final String _sql = "DELETE FROM agenda_table";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

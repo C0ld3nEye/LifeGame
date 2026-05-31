@@ -1,0 +1,74 @@
+package com.example.resiliencesandbox.data;
+
+@kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u0000T\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0010\u0002\n\u0002\b\u0005\n\u0002\u0010\b\n\u0002\b\u0004\n\u0002\u0010\t\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\u000b\n\u0002\b\u0004\u0018\u00002\u00020\u0001B\u0017\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\u0004\b\u0006\u0010\u0007J\u0010\u0010\u0011\u001a\u0004\u0018\u00010\nH\u0086@\u00a2\u0006\u0002\u0010\u0012J\u0016\u0010\u0013\u001a\u00020\u00142\u0006\u0010\u0015\u001a\u00020\nH\u0086@\u00a2\u0006\u0002\u0010\u0016J\u0016\u0010\u0017\u001a\u00020\u00142\u0006\u0010\u0015\u001a\u00020\nH\u0086@\u00a2\u0006\u0002\u0010\u0016J\u0016\u0010\u0018\u001a\u00020\u00142\u0006\u0010\u0019\u001a\u00020\u001aH\u0086@\u00a2\u0006\u0002\u0010\u001bJ\u0016\u0010\u001c\u001a\u00020\u00142\u0006\u0010\u0019\u001a\u00020\u001aH\u0086@\u00a2\u0006\u0002\u0010\u001bJ&\u0010\u001d\u001a\u00020\u00142\u0006\u0010\u001e\u001a\u00020\u001f2\u0006\u0010 \u001a\u00020!2\u0006\u0010\"\u001a\u00020#H\u0086@\u00a2\u0006\u0002\u0010$J\u001c\u0010%\u001a\b\u0012\u0004\u0012\u00020\u000f0\u000e2\u0006\u0010&\u001a\u00020\u001aH\u0086@\u00a2\u0006\u0002\u0010\u001bR\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0004\u001a\u00020\u0005X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0019\u0010\b\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\n0\t\u00a2\u0006\b\n\u0000\u001a\u0004\b\u000b\u0010\fR\u001d\u0010\r\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020\u000f0\u000e0\t\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0010\u0010\f\u00a8\u0006\'"}, d2 = {"Lcom/example/resiliencesandbox/data/CharacterRepository;", "", "characterDao", "Lcom/example/resiliencesandbox/data/local/dao/CharacterDao;", "eventLogDao", "Lcom/example/resiliencesandbox/data/local/dao/EventLogDao;", "<init>", "(Lcom/example/resiliencesandbox/data/local/dao/CharacterDao;Lcom/example/resiliencesandbox/data/local/dao/EventLogDao;)V", "characterFlow", "Lkotlinx/coroutines/flow/Flow;", "Lcom/example/resiliencesandbox/data/local/entity/CharacterEntity;", "getCharacterFlow", "()Lkotlinx/coroutines/flow/Flow;", "eventLogsFlow", "", "Lcom/example/resiliencesandbox/data/local/entity/EventLogEntity;", "getEventLogsFlow", "getCharacterState", "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "saveCharacterState", "", "character", "(Lcom/example/resiliencesandbox/data/local/entity/CharacterEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "updateCharacter", "updatePeur", "newValue", "", "(ILkotlin/coroutines/Continuation;)Ljava/lang/Object;", "updatePhysicalSkill", "addEventLog", "timestamp", "", "description", "", "isRoutineTick", "", "(JLjava/lang/String;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;", "getRecentEventLogs", "limit", "app_debug"})
+public final class CharacterRepository {
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.CharacterDao characterDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.EventLogDao eventLogDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.Flow<com.example.resiliencesandbox.data.local.entity.CharacterEntity> characterFlow = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.Flow<java.util.List<com.example.resiliencesandbox.data.local.entity.EventLogEntity>> eventLogsFlow = null;
+    
+    public CharacterRepository(@org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.CharacterDao characterDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.EventLogDao eventLogDao) {
+        super();
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.Flow<com.example.resiliencesandbox.data.local.entity.CharacterEntity> getCharacterFlow() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.Flow<java.util.List<com.example.resiliencesandbox.data.local.entity.EventLogEntity>> getEventLogsFlow() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object getCharacterState(@org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super com.example.resiliencesandbox.data.local.entity.CharacterEntity> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object saveCharacterState(@org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.entity.CharacterEntity character, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object updateCharacter(@org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.entity.CharacterEntity character, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object updatePeur(int newValue, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object updatePhysicalSkill(int newValue, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object addEventLog(long timestamp, @org.jetbrains.annotations.NotNull()
+    java.lang.String description, boolean isRoutineTick, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Object getRecentEventLogs(int limit, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super java.util.List<com.example.resiliencesandbox.data.local.entity.EventLogEntity>> $completion) {
+        return null;
+    }
+}

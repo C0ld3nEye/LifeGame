@@ -9,5 +9,6 @@ data class LocationEntity(
     val name: String,
     val description: String,
     val isDiscovered: Boolean = false,
-    val visitCount: Int = 1
+    val sentiment: String = "Inconnu",
+    val passif: String = "Aucun souvenir particulier."
 )

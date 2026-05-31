@@ -34,6 +34,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Empêcher l'écran de se verrouiller pendant la lecture
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // Gestion des permissions pour Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -56,7 +59,10 @@ class MainActivity : ComponentActivity() {
             repository,
             database.locationDao(),
             database.npcDao(),
-            database.inventoryDao()
+            database.inventoryDao(),
+            database.affectionDao(),
+            database.skillDao(),
+            database.agendaDao()
         )
         liteRtManager = LiteRtManager(applicationContext)
 
@@ -66,12 +72,16 @@ class MainActivity : ComponentActivity() {
                 if (modelClass.isAssignableFrom(GameViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
                     return GameViewModel(
+                        applicationContext,
                         repository, 
                         contextInjector, 
                         liteRtManager,
                         database.locationDao(),
                         database.npcDao(),
-                        database.inventoryDao()
+                        database.inventoryDao(),
+                        database.agendaDao(),
+                        database.affectionDao(),
+                        database.skillDao()
                     ) as T
                 }
                 throw IllegalArgumentException("Classe ViewModel inconnue")

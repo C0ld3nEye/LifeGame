@@ -1,0 +1,27 @@
+package com.example.resiliencesandbox.worker;
+
+@kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u0000 \n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\b\u00c6\u0002\u0018\u00002\u00020\u0001B\t\b\u0002\u00a2\u0006\u0004\b\u0002\u0010\u0003J\u000e\u0010\u0006\u001a\u00020\u00072\u0006\u0010\b\u001a\u00020\tJ\u000e\u0010\n\u001a\u00020\u00072\u0006\u0010\b\u001a\u00020\tR\u000e\u0010\u0004\u001a\u00020\u0005X\u0082T\u00a2\u0006\u0002\n\u0000\u00a8\u0006\u000b"}, d2 = {"Lcom/example/resiliencesandbox/worker/RoutineScheduler;", "", "<init>", "()V", "ROUTINE_WORK_NAME", "", "startRoutine", "", "context", "Landroid/content/Context;", "stopRoutine", "app_debug"})
+public final class RoutineScheduler {
+    @org.jetbrains.annotations.NotNull()
+    private static final java.lang.String ROUTINE_WORK_NAME = "PeriodicRoutineTickWorker";
+    @org.jetbrains.annotations.NotNull()
+    public static final com.example.resiliencesandbox.worker.RoutineScheduler INSTANCE = null;
+    
+    private RoutineScheduler() {
+        super();
+    }
+    
+    /**
+     * Lance le Worker de routine périodiquement (Toutes les 2 heures).
+     */
+    public final void startRoutine(@org.jetbrains.annotations.NotNull()
+    android.content.Context context) {
+    }
+    
+    /**
+     * Stoppe la routine de fond.
+     */
+    public final void stopRoutine(@org.jetbrains.annotations.NotNull()
+    android.content.Context context) {
+    }
+}

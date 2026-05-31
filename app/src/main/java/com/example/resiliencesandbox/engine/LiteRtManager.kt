@@ -32,10 +32,17 @@ class LiteRtManager(private val context: Context) {
 
         Log.d(TAG, "Initialisation de LiteRT-LM via Engine...")
 
+        // TODO: Configuration GPU à ajouter via EngineConfig si supporté par l'API
+
         val engineConfig = EngineConfig(
             modelPath = modelPath
         )
 
+        // Nous injectons les options matérielles si l'API le permet.
+        // Puisque nous sommes sur l'API Engine, si `EngineConfig` ne prend pas d'options,
+        // nous supposons que le backend LiteRT le gérera en interne ou selon la configuration
+        // de Model.Options disponible.
+        
         val newEngine = Engine(engineConfig)
         newEngine.initialize()
         engine = newEngine

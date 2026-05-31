@@ -1,0 +1,147 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.coroutines.FlowUtil;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.EventLogEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class EventLogDao_Impl implements EventLogDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<EventLogEntity> __insertAdapterOfEventLogEntity;
+
+  public EventLogDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfEventLogEntity = new EntityInsertAdapter<EventLogEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `event_log_table` (`id`,`timestamp`,`descriptionText`,`isRoutineTick`) VALUES (nullif(?, 0),?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final EventLogEntity entity) {
+        statement.bindLong(1, entity.getId());
+        statement.bindLong(2, entity.getTimestamp());
+        if (entity.getDescriptionText() == null) {
+          statement.bindNull(3);
+        } else {
+          statement.bindText(3, entity.getDescriptionText());
+        }
+        final int _tmp = entity.isRoutineTick() ? 1 : 0;
+        statement.bindLong(4, _tmp);
+      }
+    };
+  }
+
+  @Override
+  public Object insertLog(final EventLogEntity log, final Continuation<? super Unit> $completion) {
+    if (log == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfEventLogEntity.insert(_connection, log);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Flow<List<EventLogEntity>> getAllLogs() {
+    final String _sql = "SELECT * FROM event_log_table ORDER BY timestamp DESC";
+    return FlowUtil.createFlow(__db, false, new String[] {"event_log_table"}, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfTimestamp = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "timestamp");
+        final int _columnIndexOfDescriptionText = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "descriptionText");
+        final int _columnIndexOfIsRoutineTick = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "isRoutineTick");
+        final List<EventLogEntity> _result = new ArrayList<EventLogEntity>();
+        while (_stmt.step()) {
+          final EventLogEntity _item;
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final long _tmpTimestamp;
+          _tmpTimestamp = _stmt.getLong(_columnIndexOfTimestamp);
+          final String _tmpDescriptionText;
+          if (_stmt.isNull(_columnIndexOfDescriptionText)) {
+            _tmpDescriptionText = null;
+          } else {
+            _tmpDescriptionText = _stmt.getText(_columnIndexOfDescriptionText);
+          }
+          final boolean _tmpIsRoutineTick;
+          final int _tmp;
+          _tmp = (int) (_stmt.getLong(_columnIndexOfIsRoutineTick));
+          _tmpIsRoutineTick = _tmp != 0;
+          _item = new EventLogEntity(_tmpId,_tmpTimestamp,_tmpDescriptionText,_tmpIsRoutineTick);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    });
+  }
+
+  @Override
+  public Object getRecentLogs(final int limit,
+      final Continuation<? super List<EventLogEntity>> $completion) {
+    final String _sql = "SELECT * FROM event_log_table ORDER BY timestamp DESC LIMIT ?";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, limit);
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfTimestamp = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "timestamp");
+        final int _columnIndexOfDescriptionText = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "descriptionText");
+        final int _columnIndexOfIsRoutineTick = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "isRoutineTick");
+        final List<EventLogEntity> _result = new ArrayList<EventLogEntity>();
+        while (_stmt.step()) {
+          final EventLogEntity _item;
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final long _tmpTimestamp;
+          _tmpTimestamp = _stmt.getLong(_columnIndexOfTimestamp);
+          final String _tmpDescriptionText;
+          if (_stmt.isNull(_columnIndexOfDescriptionText)) {
+            _tmpDescriptionText = null;
+          } else {
+            _tmpDescriptionText = _stmt.getText(_columnIndexOfDescriptionText);
+          }
+          final boolean _tmpIsRoutineTick;
+          final int _tmp;
+          _tmp = (int) (_stmt.getLong(_columnIndexOfIsRoutineTick));
+          _tmpIsRoutineTick = _tmp != 0;
+          _item = new EventLogEntity(_tmpId,_tmpTimestamp,_tmpDescriptionText,_tmpIsRoutineTick);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

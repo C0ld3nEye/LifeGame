@@ -1,0 +1,18 @@
+package com.example.resiliencesandbox.ui.screens;
+
+@kotlin.Metadata(mv = {2, 3, 0}, k = 2, xi = 48, d1 = {"\u0000$\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0007\n\u0002\b\u0006\u001a\u0010\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u0005H\u0007\u001aB\u0010\u0006\u001a\u00020\u00032\b\b\u0002\u0010\u0007\u001a\u00020\b2\u0006\u0010\t\u001a\u00020\n2\u0006\u0010\u000b\u001a\u00020\n2\u0006\u0010\f\u001a\u00020\n2\u0006\u0010\r\u001a\u00020\n2\u0006\u0010\u000e\u001a\u00020\n2\u0006\u0010\u000f\u001a\u00020\nH\u0007\"\u000e\u0010\u0000\u001a\u00020\u0001X\u0082T\u00a2\u0006\u0002\n\u0000\u00a8\u0006\u0010"}, d2 = {"SHADER_CODE", "", "GameScreen", "", "viewModel", "Lcom/example/resiliencesandbox/ui/GameViewModel;", "RorschachCanvas", "modifier", "Landroidx/compose/ui/Modifier;", "peur", "", "colere", "tristesse", "joie", "calme", "fatigue", "app_debug"})
+public final class GameScreenKt {
+    @org.jetbrains.annotations.NotNull()
+    private static final java.lang.String SHADER_CODE = "\nuniform float2 resolution;\nuniform float time;\nuniform float peur;\nuniform float colere;\nuniform float tristesse;\nuniform float joie;\nuniform float calme;\nuniform float fatigue;\n\nfloat hash(float2 p) { return fract(sin(dot(p, float2(127.1, 311.7))) * 43758.5453); }\nfloat noise(float2 p) {\n    float2 i = floor(p); float2 f = fract(p);\n    float2 u = f * f * (3.0 - 2.0 * f);\n    return mix(mix(hash(i + float2(0.0,0.0)), hash(i + float2(1.0,0.0)), u.x),\n               mix(hash(i + float2(0.0,1.0)), hash(i + float2(1.0,1.0)), u.x), u.y);\n}\nfloat fbm(float2 p) {\n    float f = 0.0;\n    f += 0.5000 * noise(p); p *= 2.01;\n    f += 0.2500 * noise(p); p *= 2.02;\n    f += 0.1250 * noise(p); p *= 2.03;\n    return f;\n}\nhalf4 main(float2 fragCoord) {\n    float2 uv = fragCoord / resolution.xy;\n    uv.x = abs(uv.x - 0.5); // Sym\u00e9trie parfaite\n    \n    // Coordonn\u00e9es pour le bruit\n    float2 p = uv * 3.0;\n    float t = time * 0.2;\n    \n    // Cr\u00e9ation de couches de bruit superpos\u00e9es\n    float noiseVal = fbm(p + t);\n    \n    // Forme de base (plus \"\u00e9tal\u00e9e\" qu\'un simple cercle)\n    float dist = length(uv - float2(0.0, 0.4));\n    \n    // Masque organique : la combinaison de la distance et du bruit fractal\n    // Le \'ink\' est plus souple pour laisser appara\u00eetre les bords dentel\u00e9s\n    float ink = smoothstep(0.42, 0.40, dist + (noiseVal * 0.4));\n    \n    // Couleur de base argent\u00e9e\n    float3 color = float3(0.6, 0.6, 0.65);\n    \n    // Teintes \u00e9motionnelles (m\u00e9lange progressif)\n    color = mix(color, float3(0.8, 0.2, 0.2), colere * ink);\n    color = mix(color, float3(0.2, 0.3, 0.9), tristesse * ink);\n    color = mix(color, float3(0.9, 0.9, 0.3), joie * ink);\n    \n    return half4(color * ink, ink);\n}\n";
+    
+    @androidx.compose.runtime.Composable()
+    public static final void GameScreen(@org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.ui.GameViewModel viewModel) {
+    }
+    
+    @androidx.annotation.RequiresApi(value = android.os.Build.VERSION_CODES.TIRAMISU)
+    @androidx.compose.runtime.Composable()
+    public static final void RorschachCanvas(@org.jetbrains.annotations.NotNull()
+    androidx.compose.ui.Modifier modifier, float peur, float colere, float tristesse, float joie, float calme, float fatigue) {
+    }
+}

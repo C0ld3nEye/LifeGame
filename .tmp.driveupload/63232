@@ -1,0 +1,366 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityDeleteOrUpdateAdapter;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.coroutines.FlowUtil;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.CharacterEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class CharacterDao_Impl implements CharacterDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<CharacterEntity> __insertAdapterOfCharacterEntity;
+
+  private final EntityDeleteOrUpdateAdapter<CharacterEntity> __updateAdapterOfCharacterEntity;
+
+  public CharacterDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfCharacterEntity = new EntityInsertAdapter<CharacterEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `character_table` (`id`,`argent`,`energie`,`postureActuelle`,`gameTimeMinutes`,`gameStartTime`,`lastDegenerationMinute`,`physical`,`social`,`intellect`,`survival`,`finance`,`willpower`,`creativity`,`peur`,`colere`,`tristesse`,`joie`,`calme`,`fatigue`,`toxicite`,`obsession`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final CharacterEntity entity) {
+        statement.bindLong(1, entity.getId());
+        statement.bindLong(2, entity.getArgent());
+        statement.bindLong(3, entity.getEnergie());
+        if (entity.getPostureActuelle() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getPostureActuelle());
+        }
+        statement.bindLong(5, entity.getGameTimeMinutes());
+        statement.bindLong(6, entity.getGameStartTime());
+        statement.bindLong(7, entity.getLastDegenerationMinute());
+        statement.bindLong(8, entity.getPhysical());
+        statement.bindLong(9, entity.getSocial());
+        statement.bindLong(10, entity.getIntellect());
+        statement.bindLong(11, entity.getSurvival());
+        statement.bindLong(12, entity.getFinance());
+        statement.bindLong(13, entity.getWillpower());
+        statement.bindLong(14, entity.getCreativity());
+        statement.bindLong(15, entity.getPeur());
+        statement.bindLong(16, entity.getColere());
+        statement.bindLong(17, entity.getTristesse());
+        statement.bindLong(18, entity.getJoie());
+        statement.bindLong(19, entity.getCalme());
+        statement.bindLong(20, entity.getFatigue());
+        statement.bindLong(21, entity.getToxicite());
+        if (entity.getObsession() == null) {
+          statement.bindNull(22);
+        } else {
+          statement.bindText(22, entity.getObsession());
+        }
+      }
+    };
+    this.__updateAdapterOfCharacterEntity = new EntityDeleteOrUpdateAdapter<CharacterEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "UPDATE OR ABORT `character_table` SET `id` = ?,`argent` = ?,`energie` = ?,`postureActuelle` = ?,`gameTimeMinutes` = ?,`gameStartTime` = ?,`lastDegenerationMinute` = ?,`physical` = ?,`social` = ?,`intellect` = ?,`survival` = ?,`finance` = ?,`willpower` = ?,`creativity` = ?,`peur` = ?,`colere` = ?,`tristesse` = ?,`joie` = ?,`calme` = ?,`fatigue` = ?,`toxicite` = ?,`obsession` = ? WHERE `id` = ?";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final CharacterEntity entity) {
+        statement.bindLong(1, entity.getId());
+        statement.bindLong(2, entity.getArgent());
+        statement.bindLong(3, entity.getEnergie());
+        if (entity.getPostureActuelle() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getPostureActuelle());
+        }
+        statement.bindLong(5, entity.getGameTimeMinutes());
+        statement.bindLong(6, entity.getGameStartTime());
+        statement.bindLong(7, entity.getLastDegenerationMinute());
+        statement.bindLong(8, entity.getPhysical());
+        statement.bindLong(9, entity.getSocial());
+        statement.bindLong(10, entity.getIntellect());
+        statement.bindLong(11, entity.getSurvival());
+        statement.bindLong(12, entity.getFinance());
+        statement.bindLong(13, entity.getWillpower());
+        statement.bindLong(14, entity.getCreativity());
+        statement.bindLong(15, entity.getPeur());
+        statement.bindLong(16, entity.getColere());
+        statement.bindLong(17, entity.getTristesse());
+        statement.bindLong(18, entity.getJoie());
+        statement.bindLong(19, entity.getCalme());
+        statement.bindLong(20, entity.getFatigue());
+        statement.bindLong(21, entity.getToxicite());
+        if (entity.getObsession() == null) {
+          statement.bindNull(22);
+        } else {
+          statement.bindText(22, entity.getObsession());
+        }
+        statement.bindLong(23, entity.getId());
+      }
+    };
+  }
+
+  @Override
+  public Object insertCharacter(final CharacterEntity character,
+      final Continuation<? super Unit> $completion) {
+    if (character == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfCharacterEntity.insert(_connection, character);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Object updateCharacter(final CharacterEntity character,
+      final Continuation<? super Unit> $completion) {
+    if (character == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __updateAdapterOfCharacterEntity.handle(_connection, character);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Flow<CharacterEntity> getCharacterFlow() {
+    final String _sql = "SELECT * FROM character_table WHERE id = 1 LIMIT 1";
+    return FlowUtil.createFlow(__db, false, new String[] {"character_table"}, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfArgent = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "argent");
+        final int _columnIndexOfEnergie = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "energie");
+        final int _columnIndexOfPostureActuelle = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "postureActuelle");
+        final int _columnIndexOfGameTimeMinutes = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "gameTimeMinutes");
+        final int _columnIndexOfGameStartTime = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "gameStartTime");
+        final int _columnIndexOfLastDegenerationMinute = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "lastDegenerationMinute");
+        final int _columnIndexOfPhysical = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "physical");
+        final int _columnIndexOfSocial = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "social");
+        final int _columnIndexOfIntellect = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "intellect");
+        final int _columnIndexOfSurvival = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "survival");
+        final int _columnIndexOfFinance = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "finance");
+        final int _columnIndexOfWillpower = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "willpower");
+        final int _columnIndexOfCreativity = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "creativity");
+        final int _columnIndexOfPeur = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "peur");
+        final int _columnIndexOfColere = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "colere");
+        final int _columnIndexOfTristesse = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "tristesse");
+        final int _columnIndexOfJoie = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "joie");
+        final int _columnIndexOfCalme = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "calme");
+        final int _columnIndexOfFatigue = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "fatigue");
+        final int _columnIndexOfToxicite = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "toxicite");
+        final int _columnIndexOfObsession = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "obsession");
+        final CharacterEntity _result;
+        if (_stmt.step()) {
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final int _tmpArgent;
+          _tmpArgent = (int) (_stmt.getLong(_columnIndexOfArgent));
+          final int _tmpEnergie;
+          _tmpEnergie = (int) (_stmt.getLong(_columnIndexOfEnergie));
+          final String _tmpPostureActuelle;
+          if (_stmt.isNull(_columnIndexOfPostureActuelle)) {
+            _tmpPostureActuelle = null;
+          } else {
+            _tmpPostureActuelle = _stmt.getText(_columnIndexOfPostureActuelle);
+          }
+          final long _tmpGameTimeMinutes;
+          _tmpGameTimeMinutes = _stmt.getLong(_columnIndexOfGameTimeMinutes);
+          final long _tmpGameStartTime;
+          _tmpGameStartTime = _stmt.getLong(_columnIndexOfGameStartTime);
+          final long _tmpLastDegenerationMinute;
+          _tmpLastDegenerationMinute = _stmt.getLong(_columnIndexOfLastDegenerationMinute);
+          final int _tmpPhysical;
+          _tmpPhysical = (int) (_stmt.getLong(_columnIndexOfPhysical));
+          final int _tmpSocial;
+          _tmpSocial = (int) (_stmt.getLong(_columnIndexOfSocial));
+          final int _tmpIntellect;
+          _tmpIntellect = (int) (_stmt.getLong(_columnIndexOfIntellect));
+          final int _tmpSurvival;
+          _tmpSurvival = (int) (_stmt.getLong(_columnIndexOfSurvival));
+          final int _tmpFinance;
+          _tmpFinance = (int) (_stmt.getLong(_columnIndexOfFinance));
+          final int _tmpWillpower;
+          _tmpWillpower = (int) (_stmt.getLong(_columnIndexOfWillpower));
+          final int _tmpCreativity;
+          _tmpCreativity = (int) (_stmt.getLong(_columnIndexOfCreativity));
+          final int _tmpPeur;
+          _tmpPeur = (int) (_stmt.getLong(_columnIndexOfPeur));
+          final int _tmpColere;
+          _tmpColere = (int) (_stmt.getLong(_columnIndexOfColere));
+          final int _tmpTristesse;
+          _tmpTristesse = (int) (_stmt.getLong(_columnIndexOfTristesse));
+          final int _tmpJoie;
+          _tmpJoie = (int) (_stmt.getLong(_columnIndexOfJoie));
+          final int _tmpCalme;
+          _tmpCalme = (int) (_stmt.getLong(_columnIndexOfCalme));
+          final int _tmpFatigue;
+          _tmpFatigue = (int) (_stmt.getLong(_columnIndexOfFatigue));
+          final int _tmpToxicite;
+          _tmpToxicite = (int) (_stmt.getLong(_columnIndexOfToxicite));
+          final String _tmpObsession;
+          if (_stmt.isNull(_columnIndexOfObsession)) {
+            _tmpObsession = null;
+          } else {
+            _tmpObsession = _stmt.getText(_columnIndexOfObsession);
+          }
+          _result = new CharacterEntity(_tmpId,_tmpArgent,_tmpEnergie,_tmpPostureActuelle,_tmpGameTimeMinutes,_tmpGameStartTime,_tmpLastDegenerationMinute,_tmpPhysical,_tmpSocial,_tmpIntellect,_tmpSurvival,_tmpFinance,_tmpWillpower,_tmpCreativity,_tmpPeur,_tmpColere,_tmpTristesse,_tmpJoie,_tmpCalme,_tmpFatigue,_tmpToxicite,_tmpObsession);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    });
+  }
+
+  @Override
+  public Object getCharacter(final Continuation<? super CharacterEntity> $completion) {
+    final String _sql = "SELECT * FROM character_table WHERE id = 1 LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfArgent = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "argent");
+        final int _columnIndexOfEnergie = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "energie");
+        final int _columnIndexOfPostureActuelle = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "postureActuelle");
+        final int _columnIndexOfGameTimeMinutes = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "gameTimeMinutes");
+        final int _columnIndexOfGameStartTime = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "gameStartTime");
+        final int _columnIndexOfLastDegenerationMinute = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "lastDegenerationMinute");
+        final int _columnIndexOfPhysical = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "physical");
+        final int _columnIndexOfSocial = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "social");
+        final int _columnIndexOfIntellect = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "intellect");
+        final int _columnIndexOfSurvival = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "survival");
+        final int _columnIndexOfFinance = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "finance");
+        final int _columnIndexOfWillpower = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "willpower");
+        final int _columnIndexOfCreativity = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "creativity");
+        final int _columnIndexOfPeur = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "peur");
+        final int _columnIndexOfColere = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "colere");
+        final int _columnIndexOfTristesse = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "tristesse");
+        final int _columnIndexOfJoie = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "joie");
+        final int _columnIndexOfCalme = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "calme");
+        final int _columnIndexOfFatigue = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "fatigue");
+        final int _columnIndexOfToxicite = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "toxicite");
+        final int _columnIndexOfObsession = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "obsession");
+        final CharacterEntity _result;
+        if (_stmt.step()) {
+          final int _tmpId;
+          _tmpId = (int) (_stmt.getLong(_columnIndexOfId));
+          final int _tmpArgent;
+          _tmpArgent = (int) (_stmt.getLong(_columnIndexOfArgent));
+          final int _tmpEnergie;
+          _tmpEnergie = (int) (_stmt.getLong(_columnIndexOfEnergie));
+          final String _tmpPostureActuelle;
+          if (_stmt.isNull(_columnIndexOfPostureActuelle)) {
+            _tmpPostureActuelle = null;
+          } else {
+            _tmpPostureActuelle = _stmt.getText(_columnIndexOfPostureActuelle);
+          }
+          final long _tmpGameTimeMinutes;
+          _tmpGameTimeMinutes = _stmt.getLong(_columnIndexOfGameTimeMinutes);
+          final long _tmpGameStartTime;
+          _tmpGameStartTime = _stmt.getLong(_columnIndexOfGameStartTime);
+          final long _tmpLastDegenerationMinute;
+          _tmpLastDegenerationMinute = _stmt.getLong(_columnIndexOfLastDegenerationMinute);
+          final int _tmpPhysical;
+          _tmpPhysical = (int) (_stmt.getLong(_columnIndexOfPhysical));
+          final int _tmpSocial;
+          _tmpSocial = (int) (_stmt.getLong(_columnIndexOfSocial));
+          final int _tmpIntellect;
+          _tmpIntellect = (int) (_stmt.getLong(_columnIndexOfIntellect));
+          final int _tmpSurvival;
+          _tmpSurvival = (int) (_stmt.getLong(_columnIndexOfSurvival));
+          final int _tmpFinance;
+          _tmpFinance = (int) (_stmt.getLong(_columnIndexOfFinance));
+          final int _tmpWillpower;
+          _tmpWillpower = (int) (_stmt.getLong(_columnIndexOfWillpower));
+          final int _tmpCreativity;
+          _tmpCreativity = (int) (_stmt.getLong(_columnIndexOfCreativity));
+          final int _tmpPeur;
+          _tmpPeur = (int) (_stmt.getLong(_columnIndexOfPeur));
+          final int _tmpColere;
+          _tmpColere = (int) (_stmt.getLong(_columnIndexOfColere));
+          final int _tmpTristesse;
+          _tmpTristesse = (int) (_stmt.getLong(_columnIndexOfTristesse));
+          final int _tmpJoie;
+          _tmpJoie = (int) (_stmt.getLong(_columnIndexOfJoie));
+          final int _tmpCalme;
+          _tmpCalme = (int) (_stmt.getLong(_columnIndexOfCalme));
+          final int _tmpFatigue;
+          _tmpFatigue = (int) (_stmt.getLong(_columnIndexOfFatigue));
+          final int _tmpToxicite;
+          _tmpToxicite = (int) (_stmt.getLong(_columnIndexOfToxicite));
+          final String _tmpObsession;
+          if (_stmt.isNull(_columnIndexOfObsession)) {
+            _tmpObsession = null;
+          } else {
+            _tmpObsession = _stmt.getText(_columnIndexOfObsession);
+          }
+          _result = new CharacterEntity(_tmpId,_tmpArgent,_tmpEnergie,_tmpPostureActuelle,_tmpGameTimeMinutes,_tmpGameStartTime,_tmpLastDegenerationMinute,_tmpPhysical,_tmpSocial,_tmpIntellect,_tmpSurvival,_tmpFinance,_tmpWillpower,_tmpCreativity,_tmpPeur,_tmpColere,_tmpTristesse,_tmpJoie,_tmpCalme,_tmpFatigue,_tmpToxicite,_tmpObsession);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object updatePeur(final int newValue, final Continuation<? super Unit> $completion) {
+    final String _sql = "UPDATE character_table SET peur = ? WHERE id = 1";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, newValue);
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object updatePhysicalSkill(final int newValue,
+      final Continuation<? super Unit> $completion) {
+    final String _sql = "UPDATE character_table SET physical = ? WHERE id = 1";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, newValue);
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

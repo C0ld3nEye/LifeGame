@@ -1,0 +1,223 @@
+package com.example.resiliencesandbox.ui;
+
+@kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u0000\u00c8\u0001\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u000e\n\u0002\b\f\n\u0002\u0010\t\n\u0002\b\n\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000b\n\u0002\b\u0004\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0006\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0002\b\t\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\b\n\u0002\b\u000b\u0018\u00002\u00020\u0001BW\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0005\u0012\u0006\u0010\u0006\u001a\u00020\u0007\u0012\u0006\u0010\b\u001a\u00020\t\u0012\u0006\u0010\n\u001a\u00020\u000b\u0012\u0006\u0010\f\u001a\u00020\r\u0012\u0006\u0010\u000e\u001a\u00020\u000f\u0012\u0006\u0010\u0010\u001a\u00020\u0011\u0012\u0006\u0010\u0012\u001a\u00020\u0013\u0012\u0006\u0010\u0014\u001a\u00020\u0015\u00a2\u0006\u0004\b\u0016\u0010\u0017J\b\u0010Z\u001a\u00020[H\u0002J\b\u0010\\\u001a\u00020[H\u0002J\b\u0010]\u001a\u00020[H\u0002J\b\u0010^\u001a\u00020[H\u0002J\"\u0010_\u001a\u00020[2\u0006\u0010`\u001a\u00020\"2\b\b\u0002\u0010a\u001a\u00020<2\b\b\u0002\u0010b\u001a\u00020<J\b\u0010c\u001a\u00020[H\u0014J@\u0010d\u001a\u00020e2\b\u0010f\u001a\u0004\u0018\u00010g2\b\u0010h\u001a\u0004\u0018\u00010g2\b\u0010i\u001a\u0004\u0018\u00010g2\b\u0010j\u001a\u0004\u0018\u00010g2\b\u0010k\u001a\u0004\u0018\u00010\"H\u0082@\u00a2\u0006\u0002\u0010lJ\u0018\u0010m\u001a\u00020[2\u0006\u0010n\u001a\u00020\"2\u0006\u0010o\u001a\u00020\"H\u0002J\u000e\u0010p\u001a\u00020\"2\u0006\u0010q\u001a\u00020gR\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0004\u001a\u00020\u0005X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\b\u001a\u00020\tX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\n\u001a\u00020\u000bX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\f\u001a\u00020\rX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u000e\u001a\u00020\u000fX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0010\u001a\u00020\u0011X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0012\u001a\u00020\u0013X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010\u0014\u001a\u00020\u0015X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0019\u0010\u0018\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\u001a0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b\u001b\u0010\u001cR\u0019\u0010\u001d\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\u001e0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b\u001f\u0010\u001cR\u0014\u0010 \u001a\b\u0012\u0004\u0012\u00020\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010#\u001a\b\u0012\u0004\u0012\u00020\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b$\u0010\u001cR\u0014\u0010%\u001a\b\u0012\u0004\u0012\u00020\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010&\u001a\b\u0012\u0004\u0012\u00020\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b\'\u0010\u001cR\u0014\u0010(\u001a\b\u0012\u0004\u0012\u00020\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010)\u001a\b\u0012\u0004\u0012\u00020\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b*\u0010\u001cR\u0014\u0010+\u001a\b\u0012\u0004\u0012\u00020\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010,\u001a\b\u0012\u0004\u0012\u00020\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b-\u0010\u001cR\u0012\u0010.\u001a\u0004\u0018\u00010/X\u0082\u000e\u00a2\u0006\u0004\n\u0002\u00100R\u0012\u00101\u001a\u0004\u0018\u00010/X\u0082\u000e\u00a2\u0006\u0004\n\u0002\u00100R\u0010\u00102\u001a\u0004\u0018\u00010\"X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0016\u00103\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0019\u00104\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b5\u0010\u001cR\u0016\u00106\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0019\u00107\u001a\n\u0012\u0006\u0012\u0004\u0018\u00010\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b8\u0010\u001cR\u0010\u00109\u001a\u0004\u0018\u00010:X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0014\u0010;\u001a\b\u0012\u0004\u0012\u00020<0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010=\u001a\b\u0012\u0004\u0012\u00020<0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\b=\u0010\u001cR\u000e\u0010>\u001a\u00020\"X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000e\u0010?\u001a\u00020\"X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u0010@\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020B0A0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001d\u0010C\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020B0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bD\u0010\u001cR\u001a\u0010E\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020F0A0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001d\u0010G\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020F0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bH\u0010\u001cR\u0014\u0010I\u001a\b\u0012\u0004\u0012\u00020\"0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0017\u0010J\u001a\b\u0012\u0004\u0012\u00020\"0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bK\u0010\u001cR\u001a\u0010L\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020M0A0!X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001d\u0010N\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020M0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bO\u0010\u001cR\u001d\u0010P\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020Q0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bR\u0010\u001cR\u001d\u0010S\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020T0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bU\u0010\u001cR\u001d\u0010V\u001a\u000e\u0012\n\u0012\b\u0012\u0004\u0012\u00020W0A0\u0019\u00a2\u0006\b\n\u0000\u001a\u0004\bX\u0010\u001cR\u0010\u0010Y\u001a\u0004\u0018\u00010:X\u0082\u000e\u00a2\u0006\u0002\n\u0000\u00a8\u0006r"}, d2 = {"Lcom/example/resiliencesandbox/ui/GameViewModel;", "Landroidx/lifecycle/ViewModel;", "context", "Landroid/content/Context;", "repository", "Lcom/example/resiliencesandbox/data/CharacterRepository;", "contextInjector", "Lcom/example/resiliencesandbox/domain/ContextInjector;", "liteRtManager", "Lcom/example/resiliencesandbox/engine/LiteRtManager;", "locationDao", "Lcom/example/resiliencesandbox/data/local/dao/LocationDao;", "npcDao", "Lcom/example/resiliencesandbox/data/local/dao/NpcDao;", "inventoryDao", "Lcom/example/resiliencesandbox/data/local/dao/InventoryDao;", "agendaDao", "Lcom/example/resiliencesandbox/data/local/dao/AgendaDao;", "affectionDao", "Lcom/example/resiliencesandbox/data/local/dao/AffectionDao;", "skillDao", "Lcom/example/resiliencesandbox/data/local/dao/SkillDao;", "<init>", "(Landroid/content/Context;Lcom/example/resiliencesandbox/data/CharacterRepository;Lcom/example/resiliencesandbox/domain/ContextInjector;Lcom/example/resiliencesandbox/engine/LiteRtManager;Lcom/example/resiliencesandbox/data/local/dao/LocationDao;Lcom/example/resiliencesandbox/data/local/dao/NpcDao;Lcom/example/resiliencesandbox/data/local/dao/InventoryDao;Lcom/example/resiliencesandbox/data/local/dao/AgendaDao;Lcom/example/resiliencesandbox/data/local/dao/AffectionDao;Lcom/example/resiliencesandbox/data/local/dao/SkillDao;)V", "characterState", "Lkotlinx/coroutines/flow/StateFlow;", "Lcom/example/resiliencesandbox/data/local/entity/CharacterEntity;", "getCharacterState", "()Lkotlinx/coroutines/flow/StateFlow;", "semanticCharacterState", "Lcom/example/resiliencesandbox/ui/SemanticCharacterState;", "getSemanticCharacterState", "_narrativeText", "Lkotlinx/coroutines/flow/MutableStateFlow;", "", "narrativeText", "getNarrativeText", "_currentWeather", "currentWeather", "getCurrentWeather", "_actionSummary", "actionSummary", "getActionSummary", "_timeString", "timeString", "getTimeString", "taskEndTime", "", "Ljava/lang/Long;", "taskTotalDuration", "currentTaskName", "_currentTaskDisplay", "currentTaskDisplay", "getCurrentTaskDisplay", "_consequenceState", "consequenceState", "getConsequenceState", "taskTimerJob", "Lkotlinx/coroutines/Job;", "_isThinking", "", "isThinking", "lastAiResponse", "storyLog", "_inventoryState", "", "Lcom/example/resiliencesandbox/data/local/entity/InventoryEntity;", "inventoryState", "getInventoryState", "_npcsState", "Lcom/example/resiliencesandbox/data/local/entity/NpcEntity;", "npcsState", "getNpcsState", "_currentLocationName", "currentLocationName", "getCurrentLocationName", "_locationsState", "Lcom/example/resiliencesandbox/data/local/entity/LocationEntity;", "locationsState", "getLocationsState", "agendaState", "Lcom/example/resiliencesandbox/data/local/entity/AgendaEntity;", "getAgendaState", "affectionsState", "Lcom/example/resiliencesandbox/data/local/entity/AffectionEntity;", "getAffectionsState", "skillsState", "Lcom/example/resiliencesandbox/data/local/entity/SkillEntity;", "getSkillsState", "idleTimerJob", "stopIdleTimer", "", "resetIdleTimer", "triggerWakeUpIfNeeded", "refreshWorldData", "submitPlayerAction", "userText", "isWakeUp", "isHidden", "onCleared", "updateCharacterStats", "Lcom/example/resiliencesandbox/ui/TaskDeltas;", "peur", "", "fatigue", "toxicite", "energie", "lieu", "(Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "sendSystemNotification", "title", "message", "getSemanticRelation", "score", "app_debug"})
+public final class GameViewModel extends androidx.lifecycle.ViewModel {
+    @org.jetbrains.annotations.NotNull()
+    private final android.content.Context context = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.CharacterRepository repository = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.domain.ContextInjector contextInjector = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.engine.LiteRtManager liteRtManager = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.LocationDao locationDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.NpcDao npcDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.InventoryDao inventoryDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.AgendaDao agendaDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.AffectionDao affectionDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final com.example.resiliencesandbox.data.local.dao.SkillDao skillDao = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<com.example.resiliencesandbox.data.local.entity.CharacterEntity> characterState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<com.example.resiliencesandbox.ui.SemanticCharacterState> semanticCharacterState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _narrativeText = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> narrativeText = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _currentWeather = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> currentWeather = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _actionSummary = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> actionSummary = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _timeString = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> timeString = null;
+    @org.jetbrains.annotations.Nullable()
+    private java.lang.Long taskEndTime;
+    @org.jetbrains.annotations.Nullable()
+    private java.lang.Long taskTotalDuration;
+    @org.jetbrains.annotations.Nullable()
+    private java.lang.String currentTaskName;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _currentTaskDisplay = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> currentTaskDisplay = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _consequenceState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> consequenceState = null;
+    @org.jetbrains.annotations.Nullable()
+    private kotlinx.coroutines.Job taskTimerJob;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.Boolean> _isThinking = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.Boolean> isThinking = null;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String lastAiResponse = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String storyLog = "";
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.InventoryEntity>> _inventoryState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.InventoryEntity>> inventoryState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.NpcEntity>> _npcsState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.NpcEntity>> npcsState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.lang.String> _currentLocationName = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.lang.String> currentLocationName = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.MutableStateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.LocationEntity>> _locationsState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.LocationEntity>> locationsState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.AgendaEntity>> agendaState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.AffectionEntity>> affectionsState = null;
+    @org.jetbrains.annotations.NotNull()
+    private final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.SkillEntity>> skillsState = null;
+    @org.jetbrains.annotations.Nullable()
+    private kotlinx.coroutines.Job idleTimerJob;
+    
+    public GameViewModel(@org.jetbrains.annotations.NotNull()
+    android.content.Context context, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.CharacterRepository repository, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.domain.ContextInjector contextInjector, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.engine.LiteRtManager liteRtManager, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.LocationDao locationDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.NpcDao npcDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.InventoryDao inventoryDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.AgendaDao agendaDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.AffectionDao affectionDao, @org.jetbrains.annotations.NotNull()
+    com.example.resiliencesandbox.data.local.dao.SkillDao skillDao) {
+        super();
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<com.example.resiliencesandbox.data.local.entity.CharacterEntity> getCharacterState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<com.example.resiliencesandbox.ui.SemanticCharacterState> getSemanticCharacterState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getNarrativeText() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getCurrentWeather() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getActionSummary() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getTimeString() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getCurrentTaskDisplay() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getConsequenceState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.Boolean> isThinking() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.InventoryEntity>> getInventoryState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.NpcEntity>> getNpcsState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.lang.String> getCurrentLocationName() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.LocationEntity>> getLocationsState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.AgendaEntity>> getAgendaState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.AffectionEntity>> getAffectionsState() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final kotlinx.coroutines.flow.StateFlow<java.util.List<com.example.resiliencesandbox.data.local.entity.SkillEntity>> getSkillsState() {
+        return null;
+    }
+    
+    private final void stopIdleTimer() {
+    }
+    
+    private final void resetIdleTimer() {
+    }
+    
+    private final void triggerWakeUpIfNeeded() {
+    }
+    
+    private final void refreshWorldData() {
+    }
+    
+    /**
+     * Traite l'action entrée par le joueur, construit le prompt omniscient,
+     * l'envoie au modèle et met à jour la réponse narrativement.
+     */
+    public final void submitPlayerAction(@org.jetbrains.annotations.NotNull()
+    java.lang.String userText, boolean isWakeUp, boolean isHidden) {
+    }
+    
+    @java.lang.Override()
+    protected void onCleared() {
+    }
+    
+    private final java.lang.Object updateCharacterStats(java.lang.Integer peur, java.lang.Integer fatigue, java.lang.Integer toxicite, java.lang.Integer energie, java.lang.String lieu, kotlin.coroutines.Continuation<? super com.example.resiliencesandbox.ui.TaskDeltas> $completion) {
+        return null;
+    }
+    
+    private final void sendSystemNotification(java.lang.String title, java.lang.String message) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSemanticRelation(int score) {
+        return null;
+    }
+}

@@ -1,0 +1,333 @@
+package com.example.resiliencesandbox.ui;
+
+@kotlinx.serialization.Serializable()
+@kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u0000>\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\b\n\u0002\b\u0004\n\u0002\u0010\u000e\n\u0002\b\u0006\n\u0002\u0010 \n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b-\n\u0002\u0010\u000b\n\u0002\b\u0006\b\u0087\b\u0018\u0000 I2\u00020\u0001:\u0002HIB\u00f1\u0001\u0012\n\b\u0002\u0010\u0002\u001a\u0004\u0018\u00010\u0003\u0012\n\b\u0002\u0010\u0004\u001a\u0004\u0018\u00010\u0003\u0012\n\b\u0002\u0010\u0005\u001a\u0004\u0018\u00010\u0003\u0012\n\b\u0002\u0010\u0006\u001a\u0004\u0018\u00010\u0003\u0012\n\b\u0002\u0010\u0007\u001a\u0004\u0018\u00010\b\u0012\n\b\u0002\u0010\t\u001a\u0004\u0018\u00010\b\u0012\n\b\u0002\u0010\n\u001a\u0004\u0018\u00010\b\u0012\n\b\u0002\u0010\u000b\u001a\u0004\u0018\u00010\b\u0012\n\b\u0002\u0010\f\u001a\u0004\u0018\u00010\b\u0012\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\b\u0012\u0010\b\u0002\u0010\u000e\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f\u0012\u0010\b\u0002\u0010\u0010\u001a\n\u0012\u0004\u0012\u00020\u0011\u0018\u00010\u000f\u0012\u0010\b\u0002\u0010\u0012\u001a\n\u0012\u0004\u0012\u00020\u0013\u0018\u00010\u000f\u0012\u0010\b\u0002\u0010\u0014\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f\u0012\u0010\b\u0002\u0010\u0015\u001a\n\u0012\u0004\u0012\u00020\u0016\u0018\u00010\u000f\u0012\n\b\u0002\u0010\u0017\u001a\u0004\u0018\u00010\u0003\u0012\n\b\u0002\u0010\u0018\u001a\u0004\u0018\u00010\b\u00a2\u0006\u0004\b\u0019\u0010\u001aJ\u0010\u00100\u001a\u0004\u0018\u00010\u0003H\u00c6\u0003\u00a2\u0006\u0002\u0010\u001cJ\u0010\u00101\u001a\u0004\u0018\u00010\u0003H\u00c6\u0003\u00a2\u0006\u0002\u0010\u001cJ\u0010\u00102\u001a\u0004\u0018\u00010\u0003H\u00c6\u0003\u00a2\u0006\u0002\u0010\u001cJ\u0010\u00103\u001a\u0004\u0018\u00010\u0003H\u00c6\u0003\u00a2\u0006\u0002\u0010\u001cJ\u000b\u00104\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u000b\u00105\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u000b\u00106\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u000b\u00107\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u000b\u00108\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u000b\u00109\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u0011\u0010:\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000fH\u00c6\u0003J\u0011\u0010;\u001a\n\u0012\u0004\u0012\u00020\u0011\u0018\u00010\u000fH\u00c6\u0003J\u0011\u0010<\u001a\n\u0012\u0004\u0012\u00020\u0013\u0018\u00010\u000fH\u00c6\u0003J\u0011\u0010=\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000fH\u00c6\u0003J\u0011\u0010>\u001a\n\u0012\u0004\u0012\u00020\u0016\u0018\u00010\u000fH\u00c6\u0003J\u0010\u0010?\u001a\u0004\u0018\u00010\u0003H\u00c6\u0003\u00a2\u0006\u0002\u0010\u001cJ\u000b\u0010@\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\u00f8\u0001\u0010A\u001a\u00020\u00002\n\b\u0002\u0010\u0002\u001a\u0004\u0018\u00010\u00032\n\b\u0002\u0010\u0004\u001a\u0004\u0018\u00010\u00032\n\b\u0002\u0010\u0005\u001a\u0004\u0018\u00010\u00032\n\b\u0002\u0010\u0006\u001a\u0004\u0018\u00010\u00032\n\b\u0002\u0010\u0007\u001a\u0004\u0018\u00010\b2\n\b\u0002\u0010\t\u001a\u0004\u0018\u00010\b2\n\b\u0002\u0010\n\u001a\u0004\u0018\u00010\b2\n\b\u0002\u0010\u000b\u001a\u0004\u0018\u00010\b2\n\b\u0002\u0010\f\u001a\u0004\u0018\u00010\b2\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\b2\u0010\b\u0002\u0010\u000e\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f2\u0010\b\u0002\u0010\u0010\u001a\n\u0012\u0004\u0012\u00020\u0011\u0018\u00010\u000f2\u0010\b\u0002\u0010\u0012\u001a\n\u0012\u0004\u0012\u00020\u0013\u0018\u00010\u000f2\u0010\b\u0002\u0010\u0014\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f2\u0010\b\u0002\u0010\u0015\u001a\n\u0012\u0004\u0012\u00020\u0016\u0018\u00010\u000f2\n\b\u0002\u0010\u0017\u001a\u0004\u0018\u00010\u00032\n\b\u0002\u0010\u0018\u001a\u0004\u0018\u00010\bH\u00c6\u0001\u00a2\u0006\u0002\u0010BJ\u0014\u0010C\u001a\u00020D2\b\u0010E\u001a\u0004\u0018\u00010\u0001H\u00d6\u0083\u0004J\n\u0010F\u001a\u00020\u0003H\u00d6\u0081\u0004J\n\u0010G\u001a\u00020\bH\u00d6\u0081\u0004R\u0015\u0010\u0002\u001a\u0004\u0018\u00010\u0003\u00a2\u0006\n\n\u0002\u0010\u001d\u001a\u0004\b\u001b\u0010\u001cR\u0015\u0010\u0004\u001a\u0004\u0018\u00010\u0003\u00a2\u0006\n\n\u0002\u0010\u001d\u001a\u0004\b\u001e\u0010\u001cR\u0015\u0010\u0005\u001a\u0004\u0018\u00010\u0003\u00a2\u0006\n\n\u0002\u0010\u001d\u001a\u0004\b\u001f\u0010\u001cR\u0015\u0010\u0006\u001a\u0004\u0018\u00010\u0003\u00a2\u0006\n\n\u0002\u0010\u001d\u001a\u0004\b \u0010\u001cR\u0013\u0010\u0007\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b!\u0010\"R\u0013\u0010\t\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b#\u0010\"R\u0013\u0010\n\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b$\u0010\"R\u0013\u0010\u000b\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b%\u0010\"R\u0013\u0010\f\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b&\u0010\"R\u0013\u0010\r\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b\'\u0010\"R\u0019\u0010\u000e\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f\u00a2\u0006\b\n\u0000\u001a\u0004\b(\u0010)R\u0019\u0010\u0010\u001a\n\u0012\u0004\u0012\u00020\u0011\u0018\u00010\u000f\u00a2\u0006\b\n\u0000\u001a\u0004\b*\u0010)R\u0019\u0010\u0012\u001a\n\u0012\u0004\u0012\u00020\u0013\u0018\u00010\u000f\u00a2\u0006\b\n\u0000\u001a\u0004\b+\u0010)R\u0019\u0010\u0014\u001a\n\u0012\u0004\u0012\u00020\b\u0018\u00010\u000f\u00a2\u0006\b\n\u0000\u001a\u0004\b,\u0010)R\u0019\u0010\u0015\u001a\n\u0012\u0004\u0012\u00020\u0016\u0018\u00010\u000f\u00a2\u0006\b\n\u0000\u001a\u0004\b-\u0010)R\u0015\u0010\u0017\u001a\u0004\u0018\u00010\u0003\u00a2\u0006\n\n\u0002\u0010\u001d\u001a\u0004\b.\u0010\u001cR\u0013\u0010\u0018\u001a\u0004\u0018\u00010\b\u00a2\u0006\b\n\u0000\u001a\u0004\b/\u0010\"\u00a8\u0006J"}, d2 = {"Lcom/example/resiliencesandbox/ui/TurnData;", "", "peur", "", "fatigue", "energie", "toxicite", "lieu", "", "sentiment_lieu", "passif_lieu", "meteo", "resume_action", "consequence_immediate", "nouveaux_pnj", "", "nouveaux_objets", "Lcom/example/resiliencesandbox/ui/ItemData;", "nouveaux_evenements_agenda", "Lcom/example/resiliencesandbox/ui/AgendaUpdate;", "objets_consommes", "pnj_interagis", "Lcom/example/resiliencesandbox/ui/NpcUpdate;", "duree_tache_minutes", "nom_tache", "<init>", "(Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;)V", "getPeur", "()Ljava/lang/Integer;", "Ljava/lang/Integer;", "getFatigue", "getEnergie", "getToxicite", "getLieu", "()Ljava/lang/String;", "getSentiment_lieu", "getPassif_lieu", "getMeteo", "getResume_action", "getConsequence_immediate", "getNouveaux_pnj", "()Ljava/util/List;", "getNouveaux_objets", "getNouveaux_evenements_agenda", "getObjets_consommes", "getPnj_interagis", "getDuree_tache_minutes", "getNom_tache", "component1", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "component9", "component10", "component11", "component12", "component13", "component14", "component15", "component16", "component17", "copy", "(Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/String;)Lcom/example/resiliencesandbox/ui/TurnData;", "equals", "", "other", "hashCode", "toString", "$serializer", "Companion", "app_debug"})
+public final class TurnData {
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.Integer peur = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.Integer fatigue = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.Integer energie = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.Integer toxicite = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String lieu = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String sentiment_lieu = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String passif_lieu = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String meteo = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String resume_action = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String consequence_immediate = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.util.List<java.lang.String> nouveaux_pnj = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.util.List<com.example.resiliencesandbox.ui.ItemData> nouveaux_objets = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.util.List<com.example.resiliencesandbox.ui.AgendaUpdate> nouveaux_evenements_agenda = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.util.List<java.lang.String> objets_consommes = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.util.List<com.example.resiliencesandbox.ui.NpcUpdate> pnj_interagis = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.Integer duree_tache_minutes = null;
+    @org.jetbrains.annotations.Nullable()
+    private final java.lang.String nom_tache = null;
+    @org.jetbrains.annotations.NotNull()
+    public static final com.example.resiliencesandbox.ui.TurnData.Companion Companion = null;
+    
+    public TurnData(@org.jetbrains.annotations.Nullable()
+    java.lang.Integer peur, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer fatigue, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer energie, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer toxicite, @org.jetbrains.annotations.Nullable()
+    java.lang.String lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String sentiment_lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String passif_lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String meteo, @org.jetbrains.annotations.Nullable()
+    java.lang.String resume_action, @org.jetbrains.annotations.Nullable()
+    java.lang.String consequence_immediate, @org.jetbrains.annotations.Nullable()
+    java.util.List<java.lang.String> nouveaux_pnj, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.ItemData> nouveaux_objets, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.AgendaUpdate> nouveaux_evenements_agenda, @org.jetbrains.annotations.Nullable()
+    java.util.List<java.lang.String> objets_consommes, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.NpcUpdate> pnj_interagis, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer duree_tache_minutes, @org.jetbrains.annotations.Nullable()
+    java.lang.String nom_tache) {
+        super();
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer getPeur() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer getFatigue() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer getEnergie() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer getToxicite() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getLieu() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getSentiment_lieu() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getPassif_lieu() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getMeteo() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getResume_action() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getConsequence_immediate() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<java.lang.String> getNouveaux_pnj() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.ItemData> getNouveaux_objets() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.AgendaUpdate> getNouveaux_evenements_agenda() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<java.lang.String> getObjets_consommes() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.NpcUpdate> getPnj_interagis() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer getDuree_tache_minutes() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String getNom_tache() {
+        return null;
+    }
+    
+    public TurnData() {
+        super();
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer component1() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component10() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<java.lang.String> component11() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.ItemData> component12() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.AgendaUpdate> component13() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<java.lang.String> component14() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.util.List<com.example.resiliencesandbox.ui.NpcUpdate> component15() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer component16() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component17() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer component2() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer component3() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.Integer component4() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component5() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component6() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component7() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component8() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
+    public final java.lang.String component9() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final com.example.resiliencesandbox.ui.TurnData copy(@org.jetbrains.annotations.Nullable()
+    java.lang.Integer peur, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer fatigue, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer energie, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer toxicite, @org.jetbrains.annotations.Nullable()
+    java.lang.String lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String sentiment_lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String passif_lieu, @org.jetbrains.annotations.Nullable()
+    java.lang.String meteo, @org.jetbrains.annotations.Nullable()
+    java.lang.String resume_action, @org.jetbrains.annotations.Nullable()
+    java.lang.String consequence_immediate, @org.jetbrains.annotations.Nullable()
+    java.util.List<java.lang.String> nouveaux_pnj, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.ItemData> nouveaux_objets, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.AgendaUpdate> nouveaux_evenements_agenda, @org.jetbrains.annotations.Nullable()
+    java.util.List<java.lang.String> objets_consommes, @org.jetbrains.annotations.Nullable()
+    java.util.List<com.example.resiliencesandbox.ui.NpcUpdate> pnj_interagis, @org.jetbrains.annotations.Nullable()
+    java.lang.Integer duree_tache_minutes, @org.jetbrains.annotations.Nullable()
+    java.lang.String nom_tache) {
+        return null;
+    }
+    
+    @java.lang.Override()
+    public boolean equals(@org.jetbrains.annotations.Nullable()
+    java.lang.Object other) {
+        return false;
+    }
+    
+    @java.lang.Override()
+    public int hashCode() {
+        return 0;
+    }
+    
+    @java.lang.Override()
+    @org.jetbrains.annotations.NotNull()
+    public java.lang.String toString() {
+        return null;
+    }
+    
+    @kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u00006\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u0011\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u00c7\u0002\u0018\u00002\b\u0012\u0004\u0012\u00020\u00020\u0001B\t\b\u0002\u00a2\u0006\u0004\b\u0003\u0010\u0004J\u0015\u0010\u0005\u001a\f\u0012\b\u0012\u0006\u0012\u0002\b\u00030\u00070\u0006\u00a2\u0006\u0002\u0010\bJ\u000e\u0010\t\u001a\u00020\u00022\u0006\u0010\n\u001a\u00020\u000bJ\u0016\u0010\f\u001a\u00020\r2\u0006\u0010\u000e\u001a\u00020\u000f2\u0006\u0010\u0010\u001a\u00020\u0002R\u0011\u0010\u0011\u001a\u00020\u0012\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0013\u0010\u0014\u00a8\u0006\u0015"}, d2 = {"com/example/resiliencesandbox/ui/TurnData.$serializer", "Lkotlinx/serialization/internal/GeneratedSerializer;", "Lcom/example/resiliencesandbox/ui/TurnData;", "<init>", "()V", "childSerializers", "", "Lkotlinx/serialization/KSerializer;", "()[Lkotlinx/serialization/KSerializer;", "deserialize", "decoder", "Lkotlinx/serialization/encoding/Decoder;", "serialize", "", "encoder", "Lkotlinx/serialization/encoding/Encoder;", "value", "descriptor", "Lkotlinx/serialization/descriptors/SerialDescriptor;", "getDescriptor", "()Lkotlinx/serialization/descriptors/SerialDescriptor;", "app_debug"})
+    @java.lang.Deprecated()
+    public static final class $serializer implements kotlinx.serialization.internal.GeneratedSerializer<com.example.resiliencesandbox.ui.TurnData> {
+        @org.jetbrains.annotations.NotNull()
+        public static final com.example.resiliencesandbox.ui.TurnData.$serializer INSTANCE = null;
+        @org.jetbrains.annotations.NotNull()
+        private static final kotlinx.serialization.descriptors.SerialDescriptor descriptor = null;
+        
+        private $serializer() {
+            super();
+        }
+        
+        @java.lang.Override()
+        @org.jetbrains.annotations.NotNull()
+        public final kotlinx.serialization.KSerializer<?>[] childSerializers() {
+            return null;
+        }
+        
+        @java.lang.Override()
+        @org.jetbrains.annotations.NotNull()
+        public final com.example.resiliencesandbox.ui.TurnData deserialize(@org.jetbrains.annotations.NotNull()
+        kotlinx.serialization.encoding.Decoder decoder) {
+            return null;
+        }
+        
+        @java.lang.Override()
+        public final void serialize(@org.jetbrains.annotations.NotNull()
+        kotlinx.serialization.encoding.Encoder encoder, @org.jetbrains.annotations.NotNull()
+        com.example.resiliencesandbox.ui.TurnData value) {
+        }
+        
+        @java.lang.Override()
+        @org.jetbrains.annotations.NotNull()
+        public final kotlinx.serialization.descriptors.SerialDescriptor getDescriptor() {
+            return null;
+        }
+        
+        @java.lang.Override()
+        @org.jetbrains.annotations.NotNull()
+        public kotlinx.serialization.KSerializer<?>[] typeParametersSerializers() {
+            return null;
+        }
+    }
+    
+    @kotlin.Metadata(mv = {2, 3, 0}, k = 1, xi = 48, d1 = {"\u0000\u0016\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\b\u0086\u0003\u0018\u00002\u00020\u0001B\t\b\u0002\u00a2\u0006\u0004\b\u0002\u0010\u0003J\f\u0010\u0004\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005\u00a8\u0006\u0007"}, d2 = {"Lcom/example/resiliencesandbox/ui/TurnData$Companion;", "", "<init>", "()V", "serializer", "Lkotlinx/serialization/KSerializer;", "Lcom/example/resiliencesandbox/ui/TurnData;", "app_debug"})
+    public static final class Companion {
+        
+        private Companion() {
+            super();
+        }
+        
+        @org.jetbrains.annotations.NotNull()
+        public final kotlinx.serialization.KSerializer<com.example.resiliencesandbox.ui.TurnData> serializer() {
+            return null;
+        }
+    }
+}

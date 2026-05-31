@@ -1,0 +1,191 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.coroutines.FlowUtil;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.SkillEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class SkillDao_Impl implements SkillDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<SkillEntity> __insertAdapterOfSkillEntity;
+
+  public SkillDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfSkillEntity = new EntityInsertAdapter<SkillEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `skills` (`name`,`level`,`lastUsedMinute`) VALUES (?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final SkillEntity entity) {
+        if (entity.getName() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getName());
+        }
+        statement.bindLong(2, entity.getLevel());
+        statement.bindLong(3, entity.getLastUsedMinute());
+      }
+    };
+  }
+
+  @Override
+  public Object insertSkill(final SkillEntity skill, final Continuation<? super Unit> $completion) {
+    if (skill == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfSkillEntity.insert(_connection, skill);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Flow<List<SkillEntity>> getAllSkillsFlow() {
+    final String _sql = "SELECT * FROM skills";
+    return FlowUtil.createFlow(__db, false, new String[] {"skills"}, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfLevel = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "level");
+        final int _columnIndexOfLastUsedMinute = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "lastUsedMinute");
+        final List<SkillEntity> _result = new ArrayList<SkillEntity>();
+        while (_stmt.step()) {
+          final SkillEntity _item;
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final int _tmpLevel;
+          _tmpLevel = (int) (_stmt.getLong(_columnIndexOfLevel));
+          final long _tmpLastUsedMinute;
+          _tmpLastUsedMinute = _stmt.getLong(_columnIndexOfLastUsedMinute);
+          _item = new SkillEntity(_tmpName,_tmpLevel,_tmpLastUsedMinute);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    });
+  }
+
+  @Override
+  public Object getAllSkills(final Continuation<? super List<SkillEntity>> $completion) {
+    final String _sql = "SELECT * FROM skills";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfLevel = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "level");
+        final int _columnIndexOfLastUsedMinute = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "lastUsedMinute");
+        final List<SkillEntity> _result = new ArrayList<SkillEntity>();
+        while (_stmt.step()) {
+          final SkillEntity _item;
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final int _tmpLevel;
+          _tmpLevel = (int) (_stmt.getLong(_columnIndexOfLevel));
+          final long _tmpLastUsedMinute;
+          _tmpLastUsedMinute = _stmt.getLong(_columnIndexOfLastUsedMinute);
+          _item = new SkillEntity(_tmpName,_tmpLevel,_tmpLastUsedMinute);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getSkillByName(final String name,
+      final Continuation<? super SkillEntity> $completion) {
+    final String _sql = "SELECT * FROM skills WHERE name = ? LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (name == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, name);
+        }
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfLevel = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "level");
+        final int _columnIndexOfLastUsedMinute = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "lastUsedMinute");
+        final SkillEntity _result;
+        if (_stmt.step()) {
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final int _tmpLevel;
+          _tmpLevel = (int) (_stmt.getLong(_columnIndexOfLevel));
+          final long _tmpLastUsedMinute;
+          _tmpLastUsedMinute = _stmt.getLong(_columnIndexOfLastUsedMinute);
+          _result = new SkillEntity(_tmpName,_tmpLevel,_tmpLastUsedMinute);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteSkillByName(final String name, final Continuation<? super Unit> $completion) {
+    final String _sql = "DELETE FROM skills WHERE name = ?";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (name == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, name);
+        }
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.resiliencesandbox.ui.GameViewModel
 
 private const val SHADER_CODE = """
@@ -95,11 +96,15 @@ fun GameScreen(viewModel: GameViewModel) {
     val characterState by viewModel.characterState.collectAsState()
     val narrativeText by viewModel.narrativeText.collectAsState()
     val isThinking by viewModel.isThinking.collectAsState()
-    val notifications by viewModel.notifications.collectAsState()
 
     val inventoryState by viewModel.inventoryState.collectAsState()
     val npcsState by viewModel.npcsState.collectAsState()
     val currentLocationName by viewModel.currentLocationName.collectAsState()
+    val timeString by viewModel.timeString.collectAsState()
+    val currentWeather by viewModel.currentWeather.collectAsState()
+    val actionSummary by viewModel.actionSummary.collectAsState()
+    val currentTaskDisplay by viewModel.currentTaskDisplay.collectAsState()
+    val consequenceState by viewModel.consequenceState.collectAsState()
 
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -141,28 +146,49 @@ fun GameScreen(viewModel: GameViewModel) {
             )
         }
 
-        // 2. Notifications flottantes (En haut à droite)
+        // 1.5 HUD Principal (Temps, Lieu, Météo, Résumé)
         Column(
             modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp)
-                .padding(top = 24.dp), // Pour éviter la status bar
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .background(Color(0xB3000000))
+                .padding(top = 48.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            notifications.forEach { notif ->
-                AnimatedVisibility(
-                    visible = true,
-                    enter = fadeIn() + slideInVertically { it / 2 },
-                    exit = fadeOut() + slideOutVertically { it / 2 }
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(Color(0xFF1E1E1E), RectangleShape)
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    ) {
-                        Text(notif.text, color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
+            Text(
+                text = "[ $timeString | $currentLocationName | $currentWeather ]",
+                color = Color.LightGray,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = actionSummary,
+                color = Color.White,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center
+            )
+            if (currentTaskDisplay != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = ">> ${currentTaskDisplay!!} <<",
+                    color = Color.Cyan,
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+            AnimatedVisibility(visible = consequenceState != null) {
+                Text(
+                    text = consequenceState ?: "",
+                    color = Color(0xFFD32F2F),
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
             }
         }
 

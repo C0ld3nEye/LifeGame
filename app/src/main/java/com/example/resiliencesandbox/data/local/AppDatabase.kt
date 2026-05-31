@@ -14,6 +14,12 @@ import com.example.resiliencesandbox.data.local.entity.EventLogEntity
 import com.example.resiliencesandbox.data.local.entity.LocationEntity
 import com.example.resiliencesandbox.data.local.entity.NpcEntity
 import com.example.resiliencesandbox.data.local.entity.InventoryEntity
+import com.example.resiliencesandbox.data.local.dao.AgendaDao
+import com.example.resiliencesandbox.data.local.entity.AgendaEntity
+import com.example.resiliencesandbox.data.local.dao.AffectionDao
+import com.example.resiliencesandbox.data.local.entity.AffectionEntity
+import com.example.resiliencesandbox.data.local.dao.SkillDao
+import com.example.resiliencesandbox.data.local.entity.SkillEntity
 
 @Database(
     entities = [
@@ -22,8 +28,11 @@ import com.example.resiliencesandbox.data.local.entity.InventoryEntity
         NpcEntity::class,
         InventoryEntity::class,
         EventLogEntity::class,
+        AgendaEntity::class,
+        AffectionEntity::class,
+        SkillEntity::class
     ],
-    version = 7,
+    version = 11,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -33,6 +42,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun locationDao(): LocationDao
     abstract fun npcDao(): NpcDao
     abstract fun inventoryDao(): InventoryDao
+    abstract fun agendaDao(): AgendaDao
+    abstract fun affectionDao(): AffectionDao
+    abstract fun skillDao(): SkillDao
 
     companion object {
         @Volatile

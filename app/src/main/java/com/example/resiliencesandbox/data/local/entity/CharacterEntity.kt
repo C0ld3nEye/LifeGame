@@ -10,6 +10,8 @@ data class CharacterEntity(
     val energie: Int,
     val postureActuelle: String,
     val gameTimeMinutes: Long = 0L,
+    val gameStartTime: Long = System.currentTimeMillis(),
+    val lastDegenerationMinute: Long = 0L,
     
     // Compétences (0 à 100)
     val physical: Int,

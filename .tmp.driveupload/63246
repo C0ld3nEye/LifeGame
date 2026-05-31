@@ -1,0 +1,403 @@
+package com.example.resiliencesandbox.data.local;
+
+import androidx.annotation.NonNull;
+import androidx.room.InvalidationTracker;
+import androidx.room.RoomOpenDelegate;
+import androidx.room.migration.AutoMigrationSpec;
+import androidx.room.migration.Migration;
+import androidx.room.util.DBUtil;
+import androidx.room.util.TableInfo;
+import androidx.sqlite.SQLite;
+import androidx.sqlite.SQLiteConnection;
+import com.example.resiliencesandbox.data.local.dao.AffectionDao;
+import com.example.resiliencesandbox.data.local.dao.AffectionDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.AgendaDao;
+import com.example.resiliencesandbox.data.local.dao.AgendaDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.CharacterDao;
+import com.example.resiliencesandbox.data.local.dao.CharacterDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.EventLogDao;
+import com.example.resiliencesandbox.data.local.dao.EventLogDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.InventoryDao;
+import com.example.resiliencesandbox.data.local.dao.InventoryDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.LocationDao;
+import com.example.resiliencesandbox.data.local.dao.LocationDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.NpcDao;
+import com.example.resiliencesandbox.data.local.dao.NpcDao_Impl;
+import com.example.resiliencesandbox.data.local.dao.SkillDao;
+import com.example.resiliencesandbox.data.local.dao.SkillDao_Impl;
+import java.lang.Class;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.processing.Generated;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class AppDatabase_Impl extends AppDatabase {
+  private volatile CharacterDao _characterDao;
+
+  private volatile EventLogDao _eventLogDao;
+
+  private volatile LocationDao _locationDao;
+
+  private volatile NpcDao _npcDao;
+
+  private volatile InventoryDao _inventoryDao;
+
+  private volatile AgendaDao _agendaDao;
+
+  private volatile AffectionDao _affectionDao;
+
+  private volatile SkillDao _skillDao;
+
+  @Override
+  @NonNull
+  protected RoomOpenDelegate createOpenDelegate() {
+    final RoomOpenDelegate _openDelegate = new RoomOpenDelegate(11, "44154da1ace76e1f89fe435ecfcec369", "28738cafe2fe53e44078f97137a0e4dd") {
+      @Override
+      public void createAllTables(@NonNull final SQLiteConnection connection) {
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `character_table` (`id` INTEGER NOT NULL, `argent` INTEGER NOT NULL, `energie` INTEGER NOT NULL, `postureActuelle` TEXT NOT NULL, `gameTimeMinutes` INTEGER NOT NULL, `gameStartTime` INTEGER NOT NULL, `lastDegenerationMinute` INTEGER NOT NULL, `physical` INTEGER NOT NULL, `social` INTEGER NOT NULL, `intellect` INTEGER NOT NULL, `survival` INTEGER NOT NULL, `finance` INTEGER NOT NULL, `willpower` INTEGER NOT NULL, `creativity` INTEGER NOT NULL, `peur` INTEGER NOT NULL, `colere` INTEGER NOT NULL, `tristesse` INTEGER NOT NULL, `joie` INTEGER NOT NULL, `calme` INTEGER NOT NULL, `fatigue` INTEGER NOT NULL, `toxicite` INTEGER NOT NULL, `obsession` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `locations` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `isDiscovered` INTEGER NOT NULL, `sentiment` TEXT NOT NULL, `passif` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `npcs` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `relationScore` INTEGER NOT NULL, `memoryNotes` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `inventory` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `condition` TEXT NOT NULL, `description` TEXT NOT NULL, `quantity` INTEGER NOT NULL, PRIMARY KEY(`id`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `event_log_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `timestamp` INTEGER NOT NULL, `descriptionText` TEXT NOT NULL, `isRoutineTick` INTEGER NOT NULL)");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `agenda_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `echeance` TEXT NOT NULL)");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `affection_table` (`id` TEXT NOT NULL, `nom` TEXT NOT NULL, `type` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS `skills` (`name` TEXT NOT NULL, `level` INTEGER NOT NULL, `lastUsedMinute` INTEGER NOT NULL, PRIMARY KEY(`name`))");
+        SQLite.execSQL(connection, "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
+        SQLite.execSQL(connection, "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '44154da1ace76e1f89fe435ecfcec369')");
+      }
+
+      @Override
+      public void dropAllTables(@NonNull final SQLiteConnection connection) {
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `character_table`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `locations`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `npcs`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `inventory`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `event_log_table`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `agenda_table`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `affection_table`");
+        SQLite.execSQL(connection, "DROP TABLE IF EXISTS `skills`");
+      }
+
+      @Override
+      public void onCreate(@NonNull final SQLiteConnection connection) {
+      }
+
+      @Override
+      public void onOpen(@NonNull final SQLiteConnection connection) {
+        internalInitInvalidationTracker(connection);
+      }
+
+      @Override
+      public void onPreMigrate(@NonNull final SQLiteConnection connection) {
+        DBUtil.dropFtsSyncTriggers(connection);
+      }
+
+      @Override
+      public void onPostMigrate(@NonNull final SQLiteConnection connection) {
+      }
+
+      @Override
+      @NonNull
+      public RoomOpenDelegate.ValidationResult onValidateSchema(
+          @NonNull final SQLiteConnection connection) {
+        final Map<String, TableInfo.Column> _columnsCharacterTable = new HashMap<String, TableInfo.Column>(22);
+        _columnsCharacterTable.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("argent", new TableInfo.Column("argent", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("energie", new TableInfo.Column("energie", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("postureActuelle", new TableInfo.Column("postureActuelle", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("gameTimeMinutes", new TableInfo.Column("gameTimeMinutes", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("gameStartTime", new TableInfo.Column("gameStartTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("lastDegenerationMinute", new TableInfo.Column("lastDegenerationMinute", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("physical", new TableInfo.Column("physical", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("social", new TableInfo.Column("social", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("intellect", new TableInfo.Column("intellect", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("survival", new TableInfo.Column("survival", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("finance", new TableInfo.Column("finance", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("willpower", new TableInfo.Column("willpower", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("creativity", new TableInfo.Column("creativity", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("peur", new TableInfo.Column("peur", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("colere", new TableInfo.Column("colere", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("tristesse", new TableInfo.Column("tristesse", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("joie", new TableInfo.Column("joie", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("calme", new TableInfo.Column("calme", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("fatigue", new TableInfo.Column("fatigue", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("toxicite", new TableInfo.Column("toxicite", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCharacterTable.put("obsession", new TableInfo.Column("obsession", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysCharacterTable = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesCharacterTable = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoCharacterTable = new TableInfo("character_table", _columnsCharacterTable, _foreignKeysCharacterTable, _indicesCharacterTable);
+        final TableInfo _existingCharacterTable = TableInfo.read(connection, "character_table");
+        if (!_infoCharacterTable.equals(_existingCharacterTable)) {
+          return new RoomOpenDelegate.ValidationResult(false, "character_table(com.example.resiliencesandbox.data.local.entity.CharacterEntity).\n"
+                  + " Expected:\n" + _infoCharacterTable + "\n"
+                  + " Found:\n" + _existingCharacterTable);
+        }
+        final Map<String, TableInfo.Column> _columnsLocations = new HashMap<String, TableInfo.Column>(6);
+        _columnsLocations.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLocations.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLocations.put("description", new TableInfo.Column("description", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLocations.put("isDiscovered", new TableInfo.Column("isDiscovered", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLocations.put("sentiment", new TableInfo.Column("sentiment", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLocations.put("passif", new TableInfo.Column("passif", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysLocations = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesLocations = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoLocations = new TableInfo("locations", _columnsLocations, _foreignKeysLocations, _indicesLocations);
+        final TableInfo _existingLocations = TableInfo.read(connection, "locations");
+        if (!_infoLocations.equals(_existingLocations)) {
+          return new RoomOpenDelegate.ValidationResult(false, "locations(com.example.resiliencesandbox.data.local.entity.LocationEntity).\n"
+                  + " Expected:\n" + _infoLocations + "\n"
+                  + " Found:\n" + _existingLocations);
+        }
+        final Map<String, TableInfo.Column> _columnsNpcs = new HashMap<String, TableInfo.Column>(4);
+        _columnsNpcs.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsNpcs.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsNpcs.put("relationScore", new TableInfo.Column("relationScore", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsNpcs.put("memoryNotes", new TableInfo.Column("memoryNotes", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysNpcs = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesNpcs = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoNpcs = new TableInfo("npcs", _columnsNpcs, _foreignKeysNpcs, _indicesNpcs);
+        final TableInfo _existingNpcs = TableInfo.read(connection, "npcs");
+        if (!_infoNpcs.equals(_existingNpcs)) {
+          return new RoomOpenDelegate.ValidationResult(false, "npcs(com.example.resiliencesandbox.data.local.entity.NpcEntity).\n"
+                  + " Expected:\n" + _infoNpcs + "\n"
+                  + " Found:\n" + _existingNpcs);
+        }
+        final Map<String, TableInfo.Column> _columnsInventory = new HashMap<String, TableInfo.Column>(5);
+        _columnsInventory.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsInventory.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsInventory.put("condition", new TableInfo.Column("condition", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsInventory.put("description", new TableInfo.Column("description", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsInventory.put("quantity", new TableInfo.Column("quantity", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysInventory = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesInventory = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoInventory = new TableInfo("inventory", _columnsInventory, _foreignKeysInventory, _indicesInventory);
+        final TableInfo _existingInventory = TableInfo.read(connection, "inventory");
+        if (!_infoInventory.equals(_existingInventory)) {
+          return new RoomOpenDelegate.ValidationResult(false, "inventory(com.example.resiliencesandbox.data.local.entity.InventoryEntity).\n"
+                  + " Expected:\n" + _infoInventory + "\n"
+                  + " Found:\n" + _existingInventory);
+        }
+        final Map<String, TableInfo.Column> _columnsEventLogTable = new HashMap<String, TableInfo.Column>(4);
+        _columnsEventLogTable.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEventLogTable.put("timestamp", new TableInfo.Column("timestamp", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEventLogTable.put("descriptionText", new TableInfo.Column("descriptionText", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEventLogTable.put("isRoutineTick", new TableInfo.Column("isRoutineTick", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysEventLogTable = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesEventLogTable = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoEventLogTable = new TableInfo("event_log_table", _columnsEventLogTable, _foreignKeysEventLogTable, _indicesEventLogTable);
+        final TableInfo _existingEventLogTable = TableInfo.read(connection, "event_log_table");
+        if (!_infoEventLogTable.equals(_existingEventLogTable)) {
+          return new RoomOpenDelegate.ValidationResult(false, "event_log_table(com.example.resiliencesandbox.data.local.entity.EventLogEntity).\n"
+                  + " Expected:\n" + _infoEventLogTable + "\n"
+                  + " Found:\n" + _existingEventLogTable);
+        }
+        final Map<String, TableInfo.Column> _columnsAgendaTable = new HashMap<String, TableInfo.Column>(4);
+        _columnsAgendaTable.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAgendaTable.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAgendaTable.put("description", new TableInfo.Column("description", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAgendaTable.put("echeance", new TableInfo.Column("echeance", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysAgendaTable = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesAgendaTable = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoAgendaTable = new TableInfo("agenda_table", _columnsAgendaTable, _foreignKeysAgendaTable, _indicesAgendaTable);
+        final TableInfo _existingAgendaTable = TableInfo.read(connection, "agenda_table");
+        if (!_infoAgendaTable.equals(_existingAgendaTable)) {
+          return new RoomOpenDelegate.ValidationResult(false, "agenda_table(com.example.resiliencesandbox.data.local.entity.AgendaEntity).\n"
+                  + " Expected:\n" + _infoAgendaTable + "\n"
+                  + " Found:\n" + _existingAgendaTable);
+        }
+        final Map<String, TableInfo.Column> _columnsAffectionTable = new HashMap<String, TableInfo.Column>(4);
+        _columnsAffectionTable.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAffectionTable.put("nom", new TableInfo.Column("nom", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAffectionTable.put("type", new TableInfo.Column("type", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAffectionTable.put("description", new TableInfo.Column("description", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysAffectionTable = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesAffectionTable = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoAffectionTable = new TableInfo("affection_table", _columnsAffectionTable, _foreignKeysAffectionTable, _indicesAffectionTable);
+        final TableInfo _existingAffectionTable = TableInfo.read(connection, "affection_table");
+        if (!_infoAffectionTable.equals(_existingAffectionTable)) {
+          return new RoomOpenDelegate.ValidationResult(false, "affection_table(com.example.resiliencesandbox.data.local.entity.AffectionEntity).\n"
+                  + " Expected:\n" + _infoAffectionTable + "\n"
+                  + " Found:\n" + _existingAffectionTable);
+        }
+        final Map<String, TableInfo.Column> _columnsSkills = new HashMap<String, TableInfo.Column>(3);
+        _columnsSkills.put("name", new TableInfo.Column("name", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsSkills.put("level", new TableInfo.Column("level", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsSkills.put("lastUsedMinute", new TableInfo.Column("lastUsedMinute", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final Set<TableInfo.ForeignKey> _foreignKeysSkills = new HashSet<TableInfo.ForeignKey>(0);
+        final Set<TableInfo.Index> _indicesSkills = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoSkills = new TableInfo("skills", _columnsSkills, _foreignKeysSkills, _indicesSkills);
+        final TableInfo _existingSkills = TableInfo.read(connection, "skills");
+        if (!_infoSkills.equals(_existingSkills)) {
+          return new RoomOpenDelegate.ValidationResult(false, "skills(com.example.resiliencesandbox.data.local.entity.SkillEntity).\n"
+                  + " Expected:\n" + _infoSkills + "\n"
+                  + " Found:\n" + _existingSkills);
+        }
+        return new RoomOpenDelegate.ValidationResult(true, null);
+      }
+    };
+    return _openDelegate;
+  }
+
+  @Override
+  @NonNull
+  protected InvalidationTracker createInvalidationTracker() {
+    final Map<String, String> _shadowTablesMap = new HashMap<String, String>(0);
+    final Map<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "character_table", "locations", "npcs", "inventory", "event_log_table", "agenda_table", "affection_table", "skills");
+  }
+
+  @Override
+  public void clearAllTables() {
+    super.performClear(false, "character_table", "locations", "npcs", "inventory", "event_log_table", "agenda_table", "affection_table", "skills");
+  }
+
+  @Override
+  @NonNull
+  protected Map<Class<?>, List<Class<?>>> getRequiredTypeConverters() {
+    final Map<Class<?>, List<Class<?>>> _typeConvertersMap = new HashMap<Class<?>, List<Class<?>>>();
+    _typeConvertersMap.put(CharacterDao.class, CharacterDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(EventLogDao.class, EventLogDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(LocationDao.class, LocationDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(NpcDao.class, NpcDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(InventoryDao.class, InventoryDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(AgendaDao.class, AgendaDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(AffectionDao.class, AffectionDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(SkillDao.class, SkillDao_Impl.getRequiredConverters());
+    return _typeConvertersMap;
+  }
+
+  @Override
+  @NonNull
+  public Set<Class<? extends AutoMigrationSpec>> getRequiredAutoMigrationSpecs() {
+    final Set<Class<? extends AutoMigrationSpec>> _autoMigrationSpecsSet = new HashSet<Class<? extends AutoMigrationSpec>>();
+    return _autoMigrationSpecsSet;
+  }
+
+  @Override
+  @NonNull
+  public List<Migration> getAutoMigrations(
+      @NonNull final Map<Class<? extends AutoMigrationSpec>, AutoMigrationSpec> autoMigrationSpecs) {
+    final List<Migration> _autoMigrations = new ArrayList<Migration>();
+    return _autoMigrations;
+  }
+
+  @Override
+  public CharacterDao characterDao() {
+    if (_characterDao != null) {
+      return _characterDao;
+    } else {
+      synchronized(this) {
+        if(_characterDao == null) {
+          _characterDao = new CharacterDao_Impl(this);
+        }
+        return _characterDao;
+      }
+    }
+  }
+
+  @Override
+  public EventLogDao eventLogDao() {
+    if (_eventLogDao != null) {
+      return _eventLogDao;
+    } else {
+      synchronized(this) {
+        if(_eventLogDao == null) {
+          _eventLogDao = new EventLogDao_Impl(this);
+        }
+        return _eventLogDao;
+      }
+    }
+  }
+
+  @Override
+  public LocationDao locationDao() {
+    if (_locationDao != null) {
+      return _locationDao;
+    } else {
+      synchronized(this) {
+        if(_locationDao == null) {
+          _locationDao = new LocationDao_Impl(this);
+        }
+        return _locationDao;
+      }
+    }
+  }
+
+  @Override
+  public NpcDao npcDao() {
+    if (_npcDao != null) {
+      return _npcDao;
+    } else {
+      synchronized(this) {
+        if(_npcDao == null) {
+          _npcDao = new NpcDao_Impl(this);
+        }
+        return _npcDao;
+      }
+    }
+  }
+
+  @Override
+  public InventoryDao inventoryDao() {
+    if (_inventoryDao != null) {
+      return _inventoryDao;
+    } else {
+      synchronized(this) {
+        if(_inventoryDao == null) {
+          _inventoryDao = new InventoryDao_Impl(this);
+        }
+        return _inventoryDao;
+      }
+    }
+  }
+
+  @Override
+  public AgendaDao agendaDao() {
+    if (_agendaDao != null) {
+      return _agendaDao;
+    } else {
+      synchronized(this) {
+        if(_agendaDao == null) {
+          _agendaDao = new AgendaDao_Impl(this);
+        }
+        return _agendaDao;
+      }
+    }
+  }
+
+  @Override
+  public AffectionDao affectionDao() {
+    if (_affectionDao != null) {
+      return _affectionDao;
+    } else {
+      synchronized(this) {
+        if(_affectionDao == null) {
+          _affectionDao = new AffectionDao_Impl(this);
+        }
+        return _affectionDao;
+      }
+    }
+  }
+
+  @Override
+  public SkillDao skillDao() {
+    if (_skillDao != null) {
+      return _skillDao;
+    } else {
+      synchronized(this) {
+        if(_skillDao == null) {
+          _skillDao = new SkillDao_Impl(this);
+        }
+        return _skillDao;
+      }
+    }
+  }
+}

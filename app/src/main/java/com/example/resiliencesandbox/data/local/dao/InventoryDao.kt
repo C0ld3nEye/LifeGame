@@ -16,4 +16,10 @@ interface InventoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInventoryItem(item: InventoryEntity)
+
+    @Query("SELECT * FROM inventory WHERE name = :name LIMIT 1")
+    suspend fun getInventoryItemByName(name: String): InventoryEntity?
+
+    @androidx.room.Delete
+    suspend fun deleteInventoryItem(item: InventoryEntity)
 }

@@ -1,0 +1,275 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityDeleteOrUpdateAdapter;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.InventoryEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class InventoryDao_Impl implements InventoryDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<InventoryEntity> __insertAdapterOfInventoryEntity;
+
+  private final EntityDeleteOrUpdateAdapter<InventoryEntity> __deleteAdapterOfInventoryEntity;
+
+  public InventoryDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfInventoryEntity = new EntityInsertAdapter<InventoryEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `inventory` (`id`,`name`,`condition`,`description`,`quantity`) VALUES (?,?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final InventoryEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
+        if (entity.getName() == null) {
+          statement.bindNull(2);
+        } else {
+          statement.bindText(2, entity.getName());
+        }
+        if (entity.getCondition() == null) {
+          statement.bindNull(3);
+        } else {
+          statement.bindText(3, entity.getCondition());
+        }
+        if (entity.getDescription() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getDescription());
+        }
+        statement.bindLong(5, entity.getQuantity());
+      }
+    };
+    this.__deleteAdapterOfInventoryEntity = new EntityDeleteOrUpdateAdapter<InventoryEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "DELETE FROM `inventory` WHERE `id` = ?";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final InventoryEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
+      }
+    };
+  }
+
+  @Override
+  public Object insertInventoryItem(final InventoryEntity item,
+      final Continuation<? super Unit> $completion) {
+    if (item == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfInventoryEntity.insert(_connection, item);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteInventoryItem(final InventoryEntity item,
+      final Continuation<? super Unit> $completion) {
+    if (item == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __deleteAdapterOfInventoryEntity.handle(_connection, item);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Object getInventoryItem(final String id,
+      final Continuation<? super InventoryEntity> $completion) {
+    final String _sql = "SELECT * FROM inventory WHERE id = ? LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfCondition = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "condition");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfQuantity = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "quantity");
+        final InventoryEntity _result;
+        if (_stmt.step()) {
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpCondition;
+          if (_stmt.isNull(_columnIndexOfCondition)) {
+            _tmpCondition = null;
+          } else {
+            _tmpCondition = _stmt.getText(_columnIndexOfCondition);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final int _tmpQuantity;
+          _tmpQuantity = (int) (_stmt.getLong(_columnIndexOfQuantity));
+          _result = new InventoryEntity(_tmpId,_tmpName,_tmpCondition,_tmpDescription,_tmpQuantity);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getAllInventory(final Continuation<? super List<InventoryEntity>> $completion) {
+    final String _sql = "SELECT * FROM inventory";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfCondition = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "condition");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfQuantity = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "quantity");
+        final List<InventoryEntity> _result = new ArrayList<InventoryEntity>();
+        while (_stmt.step()) {
+          final InventoryEntity _item;
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpCondition;
+          if (_stmt.isNull(_columnIndexOfCondition)) {
+            _tmpCondition = null;
+          } else {
+            _tmpCondition = _stmt.getText(_columnIndexOfCondition);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final int _tmpQuantity;
+          _tmpQuantity = (int) (_stmt.getLong(_columnIndexOfQuantity));
+          _item = new InventoryEntity(_tmpId,_tmpName,_tmpCondition,_tmpDescription,_tmpQuantity);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getInventoryItemByName(final String name,
+      final Continuation<? super InventoryEntity> $completion) {
+    final String _sql = "SELECT * FROM inventory WHERE name = ? LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (name == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, name);
+        }
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfCondition = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "condition");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfQuantity = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "quantity");
+        final InventoryEntity _result;
+        if (_stmt.step()) {
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpCondition;
+          if (_stmt.isNull(_columnIndexOfCondition)) {
+            _tmpCondition = null;
+          } else {
+            _tmpCondition = _stmt.getText(_columnIndexOfCondition);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final int _tmpQuantity;
+          _tmpQuantity = (int) (_stmt.getLong(_columnIndexOfQuantity));
+          _result = new InventoryEntity(_tmpId,_tmpName,_tmpCondition,_tmpDescription,_tmpQuantity);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Google Drive & Cloud Sync files
+desktop.ini
+.goutputstream-*

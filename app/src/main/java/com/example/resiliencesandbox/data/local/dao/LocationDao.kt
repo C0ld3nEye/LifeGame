@@ -14,6 +14,9 @@ interface LocationDao {
     @Query("SELECT * FROM locations")
     suspend fun getAllLocations(): List<LocationEntity>
 
+    @Query("SELECT * FROM locations ORDER BY rowid DESC LIMIT 1")
+    suspend fun getLastLocation(): LocationEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocation(location: LocationEntity)
 }

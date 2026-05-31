@@ -1,0 +1,271 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.LocationEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class LocationDao_Impl implements LocationDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<LocationEntity> __insertAdapterOfLocationEntity;
+
+  public LocationDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfLocationEntity = new EntityInsertAdapter<LocationEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `locations` (`id`,`name`,`description`,`isDiscovered`,`sentiment`,`passif`) VALUES (?,?,?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final LocationEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
+        if (entity.getName() == null) {
+          statement.bindNull(2);
+        } else {
+          statement.bindText(2, entity.getName());
+        }
+        if (entity.getDescription() == null) {
+          statement.bindNull(3);
+        } else {
+          statement.bindText(3, entity.getDescription());
+        }
+        final int _tmp = entity.isDiscovered() ? 1 : 0;
+        statement.bindLong(4, _tmp);
+        if (entity.getSentiment() == null) {
+          statement.bindNull(5);
+        } else {
+          statement.bindText(5, entity.getSentiment());
+        }
+        if (entity.getPassif() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindText(6, entity.getPassif());
+        }
+      }
+    };
+  }
+
+  @Override
+  public Object insertLocation(final LocationEntity location,
+      final Continuation<? super Unit> $completion) {
+    if (location == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfLocationEntity.insert(_connection, location);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Object getLocationById(final String id,
+      final Continuation<? super LocationEntity> $completion) {
+    final String _sql = "SELECT * FROM locations WHERE id = ? LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfIsDiscovered = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "isDiscovered");
+        final int _columnIndexOfSentiment = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "sentiment");
+        final int _columnIndexOfPassif = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "passif");
+        final LocationEntity _result;
+        if (_stmt.step()) {
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final boolean _tmpIsDiscovered;
+          final int _tmp;
+          _tmp = (int) (_stmt.getLong(_columnIndexOfIsDiscovered));
+          _tmpIsDiscovered = _tmp != 0;
+          final String _tmpSentiment;
+          if (_stmt.isNull(_columnIndexOfSentiment)) {
+            _tmpSentiment = null;
+          } else {
+            _tmpSentiment = _stmt.getText(_columnIndexOfSentiment);
+          }
+          final String _tmpPassif;
+          if (_stmt.isNull(_columnIndexOfPassif)) {
+            _tmpPassif = null;
+          } else {
+            _tmpPassif = _stmt.getText(_columnIndexOfPassif);
+          }
+          _result = new LocationEntity(_tmpId,_tmpName,_tmpDescription,_tmpIsDiscovered,_tmpSentiment,_tmpPassif);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getAllLocations(final Continuation<? super List<LocationEntity>> $completion) {
+    final String _sql = "SELECT * FROM locations";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfIsDiscovered = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "isDiscovered");
+        final int _columnIndexOfSentiment = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "sentiment");
+        final int _columnIndexOfPassif = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "passif");
+        final List<LocationEntity> _result = new ArrayList<LocationEntity>();
+        while (_stmt.step()) {
+          final LocationEntity _item;
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final boolean _tmpIsDiscovered;
+          final int _tmp;
+          _tmp = (int) (_stmt.getLong(_columnIndexOfIsDiscovered));
+          _tmpIsDiscovered = _tmp != 0;
+          final String _tmpSentiment;
+          if (_stmt.isNull(_columnIndexOfSentiment)) {
+            _tmpSentiment = null;
+          } else {
+            _tmpSentiment = _stmt.getText(_columnIndexOfSentiment);
+          }
+          final String _tmpPassif;
+          if (_stmt.isNull(_columnIndexOfPassif)) {
+            _tmpPassif = null;
+          } else {
+            _tmpPassif = _stmt.getText(_columnIndexOfPassif);
+          }
+          _item = new LocationEntity(_tmpId,_tmpName,_tmpDescription,_tmpIsDiscovered,_tmpSentiment,_tmpPassif);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getLastLocation(final Continuation<? super LocationEntity> $completion) {
+    final String _sql = "SELECT * FROM locations ORDER BY rowid DESC LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final int _columnIndexOfIsDiscovered = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "isDiscovered");
+        final int _columnIndexOfSentiment = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "sentiment");
+        final int _columnIndexOfPassif = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "passif");
+        final LocationEntity _result;
+        if (_stmt.step()) {
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          final boolean _tmpIsDiscovered;
+          final int _tmp;
+          _tmp = (int) (_stmt.getLong(_columnIndexOfIsDiscovered));
+          _tmpIsDiscovered = _tmp != 0;
+          final String _tmpSentiment;
+          if (_stmt.isNull(_columnIndexOfSentiment)) {
+            _tmpSentiment = null;
+          } else {
+            _tmpSentiment = _stmt.getText(_columnIndexOfSentiment);
+          }
+          final String _tmpPassif;
+          if (_stmt.isNull(_columnIndexOfPassif)) {
+            _tmpPassif = null;
+          } else {
+            _tmpPassif = _stmt.getText(_columnIndexOfPassif);
+          }
+          _result = new LocationEntity(_tmpId,_tmpName,_tmpDescription,_tmpIsDiscovered,_tmpSentiment,_tmpPassif);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

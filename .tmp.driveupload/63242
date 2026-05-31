@@ -1,0 +1,167 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.NpcEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class NpcDao_Impl implements NpcDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<NpcEntity> __insertAdapterOfNpcEntity;
+
+  public NpcDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfNpcEntity = new EntityInsertAdapter<NpcEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `npcs` (`id`,`name`,`relationScore`,`memoryNotes`) VALUES (?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final NpcEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
+        if (entity.getName() == null) {
+          statement.bindNull(2);
+        } else {
+          statement.bindText(2, entity.getName());
+        }
+        statement.bindLong(3, entity.getRelationScore());
+        if (entity.getMemoryNotes() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getMemoryNotes());
+        }
+      }
+    };
+  }
+
+  @Override
+  public Object insertNpc(final NpcEntity npc, final Continuation<? super Unit> $completion) {
+    if (npc == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfNpcEntity.insert(_connection, npc);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Object getNpcById(final String id, final Continuation<? super NpcEntity> $completion) {
+    final String _sql = "SELECT * FROM npcs WHERE id = ? LIMIT 1";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (id == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, id);
+        }
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfRelationScore = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "relationScore");
+        final int _columnIndexOfMemoryNotes = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "memoryNotes");
+        final NpcEntity _result;
+        if (_stmt.step()) {
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final int _tmpRelationScore;
+          _tmpRelationScore = (int) (_stmt.getLong(_columnIndexOfRelationScore));
+          final String _tmpMemoryNotes;
+          if (_stmt.isNull(_columnIndexOfMemoryNotes)) {
+            _tmpMemoryNotes = null;
+          } else {
+            _tmpMemoryNotes = _stmt.getText(_columnIndexOfMemoryNotes);
+          }
+          _result = new NpcEntity(_tmpId,_tmpName,_tmpRelationScore,_tmpMemoryNotes);
+        } else {
+          _result = null;
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object getAllNpcs(final Continuation<? super List<NpcEntity>> $completion) {
+    final String _sql = "SELECT * FROM npcs";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfName = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "name");
+        final int _columnIndexOfRelationScore = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "relationScore");
+        final int _columnIndexOfMemoryNotes = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "memoryNotes");
+        final List<NpcEntity> _result = new ArrayList<NpcEntity>();
+        while (_stmt.step()) {
+          final NpcEntity _item;
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpName;
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName);
+          }
+          final int _tmpRelationScore;
+          _tmpRelationScore = (int) (_stmt.getLong(_columnIndexOfRelationScore));
+          final String _tmpMemoryNotes;
+          if (_stmt.isNull(_columnIndexOfMemoryNotes)) {
+            _tmpMemoryNotes = null;
+          } else {
+            _tmpMemoryNotes = _stmt.getText(_columnIndexOfMemoryNotes);
+          }
+          _item = new NpcEntity(_tmpId,_tmpName,_tmpRelationScore,_tmpMemoryNotes);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}

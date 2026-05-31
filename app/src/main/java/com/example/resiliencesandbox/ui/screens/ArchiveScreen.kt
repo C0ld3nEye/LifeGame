@@ -23,6 +23,10 @@ fun ArchiveScreen(viewModel: GameViewModel) {
     val locations by viewModel.locationsState.collectAsState()
     val npcs by viewModel.npcsState.collectAsState()
     val inventory by viewModel.inventoryState.collectAsState()
+    val timeString by viewModel.timeString.collectAsState()
+    val agenda by viewModel.agendaState.collectAsState()
+    val affections by viewModel.affectionsState.collectAsState()
+    val skills by viewModel.skillsState.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -36,8 +40,52 @@ fun ArchiveScreen(viewModel: GameViewModel) {
                 color = Color.White,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 24.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = "Heure locale : $timeString",
+                color = Color.LightGray,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 16.sp,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
+        }
+
+        // Section Agenda
+        item {
+            Text(
+                text = "[ AGENDA ET ÉCHÉANCES ]",
+                color = Color.LightGray,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        if (agenda.isEmpty()) {
+            item {
+                Text(
+                    text = "Aucune tâche en attente.",
+                    color = Color.DarkGray,
+                    fontFamily = FontFamily.Monospace,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+        } else {
+            items(agenda) { event ->
+                ExpandableFolderCard(title = "${event.title} (${event.echeance})") {
+                    Text(
+                        text = event.description,
+                        color = Color.LightGray,
+                        fontFamily = FontFamily.Monospace,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
         // Section Finances & Profil
@@ -74,16 +122,77 @@ fun ArchiveScreen(viewModel: GameViewModel) {
                         text = "État psychologique : ${semanticCharacter?.peur ?: "Inconnu"}",
                         color = Color.White,
                         fontFamily = FontFamily.Monospace,
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = "Toxicité : ${semanticCharacter?.toxicite ?: "Inconnu"}",
-                        color = Color.White,
-                        fontFamily = FontFamily.Monospace
+                        text = "--- ÉTAT BIOLOGIQUE ---",
+                        color = Color.LightGray,
+                        fontFamily = FontFamily.Monospace,
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
+                    if (affections.isEmpty()) {
+                        Text(
+                            text = "Organisme sain",
+                            color = Color.Gray,
+                            fontFamily = FontFamily.Monospace
+                        )
+                    } else {
+                        affections.forEach { affection ->
+                            val color = when (affection.type) {
+                                "Blessure" -> Color.Red
+                                "Maladie" -> Color(0xFF827717)
+                                else -> Color(0xFFFFA500)
+                            }
+                            Text(
+                                text = "- ${affection.nom} (${affection.type}): ${affection.description}",
+                                color = color,
+                                fontFamily = FontFamily.Monospace,
+                                modifier = Modifier.padding(bottom = 2.dp)
+                            )
+                        }
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
+        }
+
+        // Compétences Acquises
+        item {
+            Text(
+                text = "[ COMPÉTENCES ACQUISES ]",
+                color = Color.LightGray,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        if (skills.isEmpty()) {
+            item {
+                Text(
+                    text = "Aucune compétence mémorisée.",
+                    color = Color.DarkGray,
+                    fontFamily = FontFamily.Monospace,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+            }
+        } else {
+            items(skills) { skill ->
+                val level = skill.level
+                val filledBlocks = level / 10
+                val emptyBlocks = 10 - filledBlocks
+                val progressBar = "[" + "=".repeat(filledBlocks) + " ".repeat(emptyBlocks) + "]"
+                
+                Text(
+                    text = "${skill.name} $progressBar $level/100",
+                    color = Color(0xFF4DB6AC), // Teal
+                    fontFamily = FontFamily.Monospace,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
 
         // Inventaire Matériel
@@ -108,14 +217,7 @@ fun ArchiveScreen(viewModel: GameViewModel) {
             }
         } else {
             items(inventory) { item ->
-                val semanticQuantity = when {
-                    item.quantity == 1 -> ""
-                    item.quantity in 2..4 -> "Quelques "
-                    else -> "Un tas de "
-                }
-                val prefix = if (semanticQuantity.isEmpty()) item.name else "$semanticQuantity${item.name}"
-                
-                ExpandableFolderCard(title = "$prefix (${item.condition})") {
+                ExpandableFolderCard(title = "${item.name} (${item.condition}) x${item.quantity}") {
                     Text(
                         text = item.description,
                         color = Color.LightGray,
@@ -161,7 +263,13 @@ fun ArchiveScreen(viewModel: GameViewModel) {
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                         Text(
-                            text = "Nombre de visites : ${location.visitCount}",
+                            text = "Sentiment : ${location.sentiment}",
+                            color = Color.Cyan,
+                            fontFamily = FontFamily.Monospace,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = "Passif : ${location.passif}",
                             color = Color.Gray,
                             fontFamily = FontFamily.Monospace
                         )
@@ -195,16 +303,23 @@ fun ArchiveScreen(viewModel: GameViewModel) {
             }
         } else {
             items(npcs) { npc ->
+                val relationColor = when (npc.relationScore) {
+                    in 0..20 -> Color.Red
+                    in 21..40 -> Color(0xFFFFA500)
+                    in 41..60 -> Color.Gray
+                    in 61..80 -> Color.White
+                    else -> Color.Cyan
+                }
                 ExpandableFolderCard(title = npc.name) {
                     Column {
                         Text(
                             text = "Statut : ${viewModel.getSemanticRelation(npc.relationScore)}",
-                            color = Color.White,
+                            color = relationColor,
                             fontFamily = FontFamily.Monospace,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                         Text(
-                            text = "Notes : ${npc.memoryNotes}",
+                            text = npc.memoryNotes,
                             color = Color.Gray,
                             fontFamily = FontFamily.Monospace
                         )

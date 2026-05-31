@@ -1,0 +1,211 @@
+package com.example.resiliencesandbox.data.local.dao;
+
+import androidx.annotation.NonNull;
+import androidx.room.EntityInsertAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.coroutines.FlowUtil;
+import androidx.room.util.DBUtil;
+import androidx.room.util.SQLiteStatementUtil;
+import androidx.sqlite.SQLiteStatement;
+import com.example.resiliencesandbox.data.local.entity.AffectionEntity;
+import java.lang.Class;
+import java.lang.NullPointerException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
+
+@Generated("androidx.room.RoomProcessor")
+@SuppressWarnings({"unchecked", "deprecation", "removal"})
+public final class AffectionDao_Impl implements AffectionDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertAdapter<AffectionEntity> __insertAdapterOfAffectionEntity;
+
+  public AffectionDao_Impl(@NonNull final RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertAdapterOfAffectionEntity = new EntityInsertAdapter<AffectionEntity>() {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "INSERT OR REPLACE INTO `affection_table` (`id`,`nom`,`type`,`description`) VALUES (?,?,?,?)";
+      }
+
+      @Override
+      protected void bind(@NonNull final SQLiteStatement statement,
+          @NonNull final AffectionEntity entity) {
+        if (entity.getId() == null) {
+          statement.bindNull(1);
+        } else {
+          statement.bindText(1, entity.getId());
+        }
+        if (entity.getNom() == null) {
+          statement.bindNull(2);
+        } else {
+          statement.bindText(2, entity.getNom());
+        }
+        if (entity.getType() == null) {
+          statement.bindNull(3);
+        } else {
+          statement.bindText(3, entity.getType());
+        }
+        if (entity.getDescription() == null) {
+          statement.bindNull(4);
+        } else {
+          statement.bindText(4, entity.getDescription());
+        }
+      }
+    };
+  }
+
+  @Override
+  public Object insertAffection(final AffectionEntity affection,
+      final Continuation<? super Unit> $completion) {
+    if (affection == null) throw new NullPointerException();
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      __insertAdapterOfAffectionEntity.insert(_connection, affection);
+      return Unit.INSTANCE;
+    }, $completion);
+  }
+
+  @Override
+  public Flow<List<AffectionEntity>> getAllAffectionsFlow() {
+    final String _sql = "SELECT * FROM affection_table";
+    return FlowUtil.createFlow(__db, false, new String[] {"affection_table"}, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfNom = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "nom");
+        final int _columnIndexOfType = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "type");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final List<AffectionEntity> _result = new ArrayList<AffectionEntity>();
+        while (_stmt.step()) {
+          final AffectionEntity _item;
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpNom;
+          if (_stmt.isNull(_columnIndexOfNom)) {
+            _tmpNom = null;
+          } else {
+            _tmpNom = _stmt.getText(_columnIndexOfNom);
+          }
+          final String _tmpType;
+          if (_stmt.isNull(_columnIndexOfType)) {
+            _tmpType = null;
+          } else {
+            _tmpType = _stmt.getText(_columnIndexOfType);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          _item = new AffectionEntity(_tmpId,_tmpNom,_tmpType,_tmpDescription);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    });
+  }
+
+  @Override
+  public Object getAllAffections(final Continuation<? super List<AffectionEntity>> $completion) {
+    final String _sql = "SELECT * FROM affection_table";
+    return DBUtil.performSuspending(__db, true, false, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        final int _columnIndexOfId = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "id");
+        final int _columnIndexOfNom = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "nom");
+        final int _columnIndexOfType = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "type");
+        final int _columnIndexOfDescription = SQLiteStatementUtil.getColumnIndexOrThrow(_stmt, "description");
+        final List<AffectionEntity> _result = new ArrayList<AffectionEntity>();
+        while (_stmt.step()) {
+          final AffectionEntity _item;
+          final String _tmpId;
+          if (_stmt.isNull(_columnIndexOfId)) {
+            _tmpId = null;
+          } else {
+            _tmpId = _stmt.getText(_columnIndexOfId);
+          }
+          final String _tmpNom;
+          if (_stmt.isNull(_columnIndexOfNom)) {
+            _tmpNom = null;
+          } else {
+            _tmpNom = _stmt.getText(_columnIndexOfNom);
+          }
+          final String _tmpType;
+          if (_stmt.isNull(_columnIndexOfType)) {
+            _tmpType = null;
+          } else {
+            _tmpType = _stmt.getText(_columnIndexOfType);
+          }
+          final String _tmpDescription;
+          if (_stmt.isNull(_columnIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _stmt.getText(_columnIndexOfDescription);
+          }
+          _item = new AffectionEntity(_tmpId,_tmpNom,_tmpType,_tmpDescription);
+          _result.add(_item);
+        }
+        return _result;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteAffectionByName(final String nom,
+      final Continuation<? super Unit> $completion) {
+    final String _sql = "DELETE FROM affection_table WHERE nom = ?";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        int _argIndex = 1;
+        if (nom == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindText(_argIndex, nom);
+        }
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object clearAffections(final Continuation<? super Unit> $completion) {
+    final String _sql = "DELETE FROM affection_table";
+    return DBUtil.performSuspending(__db, false, true, (_connection) -> {
+      final SQLiteStatement _stmt = _connection.prepare(_sql);
+      try {
+        _stmt.step();
+        return Unit.INSTANCE;
+      } finally {
+        _stmt.close();
+      }
+    }, $completion);
+  }
+
+  @NonNull
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
+  }
+}
