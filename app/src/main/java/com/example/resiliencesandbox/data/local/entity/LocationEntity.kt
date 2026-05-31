@@ -8,5 +8,6 @@ data class LocationEntity(
     @PrimaryKey val id: String,
     val name: String,
     val description: String,
-    val isDiscovered: Boolean = false
+    val isDiscovered: Boolean = false,
+    val visitCount: Int = 1
 )

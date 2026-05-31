@@ -23,7 +23,7 @@ import com.example.resiliencesandbox.data.local.entity.InventoryEntity
         NpcEntity::class,
         InventoryEntity::class
     ],
-    version = 2,
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

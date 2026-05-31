@@ -8,8 +8,8 @@ import com.example.resiliencesandbox.data.local.entity.InventoryEntity
 
 @Dao
 interface InventoryDao {
-    @Query("SELECT * FROM inventory WHERE itemId = :itemId LIMIT 1")
-    suspend fun getInventoryItem(itemId: String): InventoryEntity?
+    @Query("SELECT * FROM inventory WHERE id = :id LIMIT 1")
+    suspend fun getInventoryItem(id: String): InventoryEntity?
 
     @Query("SELECT * FROM inventory")
     suspend fun getAllInventory(): List<InventoryEntity>

@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "inventory")
 data class InventoryEntity(
-    @PrimaryKey val itemId: String,
+    @PrimaryKey val id: String,
     val name: String,
-    val quantity: Int,
-    val durability: Int = 100
+    val condition: String,
+    val description: String,
+    val quantity: Int
 )

@@ -51,13 +51,27 @@ class LiteRtManager(private val context: Context) {
         Log.d(TAG, "Génération en cours...")
         var responseText = ""
         currentEngine.createConversation().use { conversation ->
-            // sendMessage renvoie un objet Message dont le contenu doit être extrait
             val message = conversation.sendMessage(prompt)
             responseText = message.contents.contents.filterIsInstance<com.google.ai.edge.litertlm.Content.Text>().joinToString("") { it.text }
         }
         
         Log.d(TAG, "Génération terminée.")
         return@withContext responseText
+    }
+
+    /**
+     * Génère une réponse en flux (streaming) via l'Engine.
+     */
+    fun generateResponseStream(prompt: String): kotlinx.coroutines.flow.Flow<String> = kotlinx.coroutines.flow.flow {
+        val currentEngine = engine ?: throw IllegalStateException("Le modèle LiteRT n'est pas initialisé.")
+        Log.d(TAG, "Génération en streaming en cours...")
+        
+        currentEngine.createConversation().use { conversation ->
+            conversation.sendMessageAsync(prompt).collect { messageChunk ->
+                val text = messageChunk.contents.contents.filterIsInstance<com.google.ai.edge.litertlm.Content.Text>().joinToString("") { it.text }
+                emit(text)
+            }
+        }
     }
 
     /**

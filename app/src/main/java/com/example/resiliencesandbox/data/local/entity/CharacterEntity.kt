@@ -9,6 +9,7 @@ data class CharacterEntity(
     val argent: Int,
     val energie: Int,
     val postureActuelle: String,
+    val gameTimeMinutes: Long = 0L,
     
     // Compétences (0 à 100)
     val physical: Int,
@@ -25,5 +26,6 @@ data class CharacterEntity(
     val tristesse: Int,
     val joie: Int,
     val calme: Int,
-    val fatigue: Int
+    val fatigue: Int,
+    val toxicite: Int = 0
 )

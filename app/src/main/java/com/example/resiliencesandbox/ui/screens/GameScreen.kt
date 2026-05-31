@@ -4,9 +4,17 @@ import android.graphics.RuntimeShader
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
@@ -18,6 +26,12 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.resiliencesandbox.ui.GameViewModel
@@ -48,26 +62,29 @@ float fbm(float2 p) {
 }
 half4 main(float2 fragCoord) {
     float2 uv = fragCoord / resolution.xy;
-    uv.x = abs(uv.x - 0.5); // Symétrie miroir parfaite
+    uv.x = abs(uv.x - 0.5); // Symétrie parfaite
     
-    float2 p = uv * 4.0;
-    float t = time * 0.4;
+    // Coordonnées pour le bruit
+    float2 p = uv * 3.0;
+    float t = time * 0.2;
     
-    // Bruit fractal complexe
-    float q = fbm(p - t * 0.3);
-    float r = fbm(p + q + t * 0.2);
+    // Création de couches de bruit superposées
+    float noiseVal = fbm(p + t);
     
-    // Distance depuis le centre de la symétrie
-    float dist = length(uv - float2(0.0, 0.5));
+    // Forme de base (plus "étalée" qu'un simple cercle)
+    float dist = length(uv - float2(0.0, 0.4));
     
-    // Découpe franche pour un vrai effet d'encre (finis les halos flous)
-    float ink = smoothstep(0.45, 0.43, dist + r * 0.4);
+    // Masque organique : la combinaison de la distance et du bruit fractal
+    // Le 'ink' est plus souple pour laisser apparaître les bords dentelés
+    float ink = smoothstep(0.42, 0.40, dist + (noiseVal * 0.4));
     
-    // Gris argent de base
-    float3 color = float3(0.5, 0.5, 0.55);
-    color = mix(color, float3(0.8, 0.1, 0.1), colere * ink);
-    color = mix(color, float3(0.1, 0.2, 0.5), tristesse * ink);
-    color = mix(color, float3(0.9, 0.8, 0.2), joie * ink);
+    // Couleur de base argentée
+    float3 color = float3(0.6, 0.6, 0.65);
+    
+    // Teintes émotionnelles (mélange progressif)
+    color = mix(color, float3(0.8, 0.2, 0.2), colere * ink);
+    color = mix(color, float3(0.2, 0.3, 0.9), tristesse * ink);
+    color = mix(color, float3(0.9, 0.9, 0.3), joie * ink);
     
     return half4(color * ink, ink);
 }
@@ -78,6 +95,13 @@ fun GameScreen(viewModel: GameViewModel) {
     val characterState by viewModel.characterState.collectAsState()
     val narrativeText by viewModel.narrativeText.collectAsState()
     val isThinking by viewModel.isThinking.collectAsState()
+    val notifications by viewModel.notifications.collectAsState()
+
+    val inventoryState by viewModel.inventoryState.collectAsState()
+    val npcsState by viewModel.npcsState.collectAsState()
+    val currentLocationName by viewModel.currentLocationName.collectAsState()
+
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     var inputText by remember { mutableStateOf("") }
 
@@ -89,19 +113,17 @@ fun GameScreen(viewModel: GameViewModel) {
     val calme = (characterState?.calme ?: 0) / 100f
     val fatigue = (characterState?.fatigue ?: 0) / 100f
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black) // Le fond de l'application est noir profond
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 1. RorschachCanvas (~60% du haut de l'écran)
+        // 1. RorschachCanvas en plein écran
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RorschachCanvas(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.6f),
+                    .fillMaxSize()
+                    .clickable { showBottomSheet = true },
                 peur = peur,
                 colere = colere,
                 tristesse = tristesse,
@@ -111,63 +133,166 @@ fun GameScreen(viewModel: GameViewModel) {
             )
         } else {
             // Fallback pour assurer la compilation sur SDK < 33 si existant
-            Box(modifier = Modifier.weight(0.6f).fillMaxWidth().background(Color.DarkGray))
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.DarkGray)
+                    .clickable { showBottomSheet = true }
+            )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 2. Narration textuelle (avec flou si isThinking)
-        Text(
-            text = narrativeText.ifEmpty { "La noirceur t'enveloppe. Ton esprit dérive..." },
-            color = Color.LightGray,
-            textAlign = TextAlign.Justify,
+        // 2. Notifications flottantes (En haut à droite)
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.3f)
-                .verticalScroll(rememberScrollState())
-                .then(if (isThinking) Modifier.blur(4.dp) else Modifier) // PAS de roue de chargement
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 3. Input Utilisateur Minimaliste (Zéro chiffre)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+                .padding(top = 24.dp), // Pour éviter la status bar
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            TextField(
-                value = inputText,
-                onValueChange = { inputText = it },
-                modifier = Modifier.weight(1f),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF1E1E1E), // Fond anthracite
-                    unfocusedContainerColor = Color(0xFF1E1E1E),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent, // Sans bordures criardes
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(8.dp),
-                placeholder = { Text("Que fais-tu ?", color = Color.Gray) }
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            IconButton(
-                onClick = {
-                    if (inputText.isNotBlank() && !isThinking) {
-                        viewModel.submitPlayerAction(inputText)
-                        inputText = ""
+            notifications.forEach { notif ->
+                AnimatedVisibility(
+                    visible = true,
+                    enter = fadeIn() + slideInVertically { it / 2 },
+                    exit = fadeOut() + slideOutVertically { it / 2 }
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF1E1E1E), RectangleShape)
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
+                        Text(notif.text, color = Color.White, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
+            }
+        }
+
+        // 3. UI d'interaction (En bas de l'écran)
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+        ) {
+            // Narration textuelle (avec flou si isThinking et ombre portée pour la lisibilité)
+            val scrollState = rememberScrollState()
+
+            LaunchedEffect(narrativeText) {
+                scrollState.animateScrollTo(scrollState.maxValue)
+            }
+
+            Text(
+                text = narrativeText.ifEmpty { "La noirceur t'enveloppe. Ton esprit dérive..." },
+                color = Color.LightGray,
+                textAlign = TextAlign.Justify,
+                style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = Color.Black,
+                        offset = Offset(2f, 2f),
+                        blurRadius = 8f
+                    )
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .heightIn(max = 250.dp)
+                    .verticalScroll(scrollState)
+            )
+
+            // Bloc input "Terminal"
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Send,
-                    contentDescription = "Envoyer",
-                    tint = Color.White
+                HorizontalDivider(color = Color.DarkGray, thickness = 1.dp)
+                
+                TextField(
+                    value = inputText,
+                    onValueChange = { inputText = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedTextColor = Color.LightGray,
+                        unfocusedTextColor = Color.LightGray,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color.LightGray
+                    ),
+                    textStyle = TextStyle(fontFamily = FontFamily.Monospace),
+                    placeholder = { Text("Entrez une action...", color = Color.DarkGray, fontFamily = FontFamily.Monospace) },
+                    leadingIcon = { Text("> ", color = Color.LightGray, fontFamily = FontFamily.Monospace) },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            if (inputText.isNotBlank() && !isThinking) {
+                                viewModel.submitPlayerAction(inputText)
+                                inputText = ""
+                            }
+                        }
+                    )
                 )
+            }
+        }
+    }
+
+    if (showBottomSheet) {
+        @OptIn(ExperimentalMaterial3Api::class)
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            containerColor = Color(0xFF121212),
+            contentColor = Color.LightGray,
+            shape = RectangleShape
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Section 1: État Psychologique & Physique
+                Text("ÉTAT PSYCHOLOGIQUE & PHYSIQUE", style = MaterialTheme.typography.titleMedium, color = Color.White, fontFamily = FontFamily.Monospace)
+                Spacer(modifier = Modifier.height(8.dp))
+                val semanticState by viewModel.semanticCharacterState.collectAsState()
+                Text("Énergie : ${semanticState?.energie ?: "Inconnu"}", fontFamily = FontFamily.Monospace)
+                Text("Fatigue : ${semanticState?.fatigue ?: "Inconnu"}", fontFamily = FontFamily.Monospace)
+                Text("Peur    : ${semanticState?.peur ?: "Inconnu"}", fontFamily = FontFamily.Monospace)
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider(color = Color.DarkGray)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Section 2: Objets Possédés
+                Text("OBJETS POSSÉDÉS", style = MaterialTheme.typography.titleMedium, color = Color.White, fontFamily = FontFamily.Monospace)
+                Spacer(modifier = Modifier.height(8.dp))
+                if (inventoryState.isEmpty()) {
+                    Text("Aucune donnée", color = Color.DarkGray, fontFamily = FontFamily.Monospace)
+                } else {
+                    inventoryState.forEach { item ->
+                        val prefix = when {
+                            item.quantity == 1 -> ""
+                            item.quantity in 2..4 -> "Quelques "
+                            else -> "Plusieurs "
+                        }
+                        Text("- $prefix${item.name}", fontFamily = FontFamily.Monospace)
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider(color = Color.DarkGray)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Section 3: Présences & Lieux
+                Text("PRÉSENCES & LIEUX", style = MaterialTheme.typography.titleMedium, color = Color.White, fontFamily = FontFamily.Monospace)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Lieu actuel : $currentLocationName", fontFamily = FontFamily.Monospace)
+                if (npcsState.isEmpty()) {
+                    Text("Aucune donnée", color = Color.DarkGray, fontFamily = FontFamily.Monospace)
+                } else {
+                    npcsState.forEach { npc ->
+                        Text("- ${npc.name} (${npc.memoryNotes})", fontFamily = FontFamily.Monospace)
+                    }
+                }
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
@@ -188,10 +313,12 @@ fun RorschachCanvas(
     var time by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(Unit) {
-        val startTime = System.currentTimeMillis()
+        var lastFrameTime = withFrameNanos { it }
         while (true) {
-            withFrameMillis { frameTime ->
-                time = (frameTime - startTime) / 1000f
+            withFrameNanos { frameTime ->
+                val delta = (frameTime - lastFrameTime) / 1_000_000_000f
+                time += delta
+                lastFrameTime = frameTime
             }
         }
     }

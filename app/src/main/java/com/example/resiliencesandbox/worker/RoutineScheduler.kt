@@ -10,11 +10,11 @@ object RoutineScheduler {
     private const val ROUTINE_WORK_NAME = "PeriodicRoutineTickWorker"
 
     /**
-     * Lance le Worker de routine périodiquement (Toutes les 15 minutes minimum via l'API Android).
+     * Lance le Worker de routine périodiquement (Toutes les 2 heures).
      */
     fun startRoutine(context: Context) {
         val workRequest = PeriodicWorkRequestBuilder<RoutineTickWorker>(
-            15, TimeUnit.MINUTES
+            2, TimeUnit.HOURS
         ).build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(

@@ -80,7 +80,8 @@ class RoutineTickWorker(
             argent = maxOf(0, newArgent), // L'argent n'est pas limité à 100, mais on évite le négatif
             peur = newPeur.clampTo100(),
             joie = newJoie.clampTo100(),
-            fatigue = newFatigue.clampTo100()
+            fatigue = newFatigue.clampTo100(),
+            gameTimeMinutes = character.gameTimeMinutes + 120L
         )
 
         // 6. Sauvegarde et Historisation (isRoutineTick = true)

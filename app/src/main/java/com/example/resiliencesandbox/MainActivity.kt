@@ -23,6 +23,7 @@ import com.example.resiliencesandbox.engine.LiteRtManager
 import com.example.resiliencesandbox.theme.ResilienceSandboxTheme
 import com.example.resiliencesandbox.ui.GameViewModel
 import com.example.resiliencesandbox.ui.screens.GameScreen
+import com.example.resiliencesandbox.ui.screens.MainScreen
 import com.example.resiliencesandbox.worker.RoutineScheduler
 import kotlinx.coroutines.launch
 import java.io.File
@@ -51,7 +52,12 @@ class MainActivity : ComponentActivity() {
         // Instanciation de l'architecture Backend (Injection manuelle)
         val database = AppDatabase.getDatabase(applicationContext)
         val repository = CharacterRepository(database.characterDao(), database.eventLogDao())
-        val contextInjector = ContextInjector(repository)
+        val contextInjector = ContextInjector(
+            repository,
+            database.locationDao(),
+            database.npcDao(),
+            database.inventoryDao()
+        )
         liteRtManager = LiteRtManager(applicationContext)
 
         // Factory pour injecter les dépendances dans le GameViewModel
@@ -59,7 +65,14 @@ class MainActivity : ComponentActivity() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(GameViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
-                    return GameViewModel(repository, contextInjector, liteRtManager) as T
+                    return GameViewModel(
+                        repository, 
+                        contextInjector, 
+                        liteRtManager,
+                        database.locationDao(),
+                        database.npcDao(),
+                        database.inventoryDao()
+                    ) as T
                 }
                 throw IllegalArgumentException("Classe ViewModel inconnue")
             }
@@ -102,8 +115,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Affichage de l'interface brutaliste et du shader Rorschach
-                    GameScreen(viewModel = gameViewModel)
+                    // Affichage de la nouvelle architecture avec Navigation
+                    MainScreen(viewModel = gameViewModel)
                 }
             }
         }
